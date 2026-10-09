@@ -1,0 +1,52 @@
+% ======================================================================
+% PACOTE DE REFERÊNCIAS E LINKS - OFICINA DE NIVELAMENTO ITEC
+% Arquivo: nivelamento_referencias.sty
+% Finalidade: Normas ABNT, bibliografia, links e QR Codes
+% ======================================================================
+
+\ProvidesPackage{nivelamento_referencias}[2026/09/30 Configuracoes de bibliografia e links]
+
+% ----------------------------------------------------------------------
+% LINKS E NAVEGAÇÃO INTERNA (HYPERREF)
+% ----------------------------------------------------------------------
+% ATENÇÃO: O pacote hyperref deve ser sempre um dos últimos a ser carregado
+\RequirePackage{hyperref}
+
+% Configuração global de links visíveis, porém discretos e profissionais
+\hypersetup{
+    colorlinks=true,
+    linkcolor=main-dark,      % Cor dos links internos (sumário, seções)
+    anchorcolor=main-dark,    % Cor de âncoras
+    citecolor=black,          % Cor das citações bibliográficas (substitui a gambiarra do \def\cite)
+    urlcolor=main-dark,       % Cor de links externos (web)
+    pdfpagemode=UseOutlines,  % Abre o PDF já exibindo os favoritos/bookmarks lateralmente
+    bookmarksnumbered=true    % Numera os favoritos no leitor de PDF
+}
+
+% ----------------------------------------------------------------------
+% GESTÃO BIBLIOGRÁFICA (PADRÃO ABNT)
+% ----------------------------------------------------------------------
+% Substitui o uso misto de natbib puro para focar no padrão oficial brasileiro
+\RequirePackage[alf, abnt-emphasize=bf]{abntex2cite} % Citações alfabéticas (Autor, Ano) com negrito no título
+
+% Macro para citar o título de uma obra específica (mantida do código original, mas simplificada)
+\RequirePackage{usebib}
+\newbibfield{editor}
+\newcommand\citetitle[1]{\hyperlink{cite.#1}{\usebibentry{#1}{title}}}
+
+% Macro para forçar o nome do autor em Small Caps (maiúsculas pequenas)
+\newcommand{\citeauthorupper}[1]{%
+   \textsc{\citeauthor{#1}}%
+}
+
+% ----------------------------------------------------------------------
+% INTEGRAÇÃO COM MÍDIAS EXTERNAS
+% ----------------------------------------------------------------------
+\RequirePackage{qrcode} % Permite a geração de QR Codes nas apostilas para links de vídeos ou formulários
+
+% Macro corporativa para QR Codes padronizados nas apostilas do Nivelamento
+\newcommand{\qrNivelamento}[2][3cm]{%
+    \begin{center}
+        \qrcode[height=#1]{#2}
+    \end{center}
+}

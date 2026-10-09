@@ -1,0 +1,155 @@
+% ======================================================================
+% MANUAL DO REDATOR (COMPILADO NO TEMPLATE)
+% ======================================================================
+
+\section{Manual do Redator}
+\label{sec:niv_tutotial_redator}
+
+Este capítulo estabelece as diretrizes de formatação, nomenclatura e estruturação das apostilas do Nivelamento. O cumprimento destas regras é obrigatório para evitar conflitos de compilação.
+
+\subsection{Regras de Ouro e Práticas Proibidas}
+\label{subsec:niv_regras_do_redator}
+
+A premissa desta arquitetura é a separação entre conteúdo e forma. O redator foca no texto e na lógica didática; o sistema cuida do layout.
+
+\begin{itemize}
+    \item Não utilize \verb|\vspace{}|, \verb|\hspace{}|, \verb|\newline| ou \verb|\\| repetidos para forçar quebras de página ou alinhar texto.
+
+    \item Não utilize \verb|\begin{tcolorbox}| diretamente, nem modifique a cor do texto com \verb|\textcolor{red}{}| para criar avisos.
+
+    \item Não insira \verb|\usepackage{}| no meio dos arquivos de conteúdo. Toda dependência deve ser solicitada à coordenação para inclusão no \verb|/setup|.
+\end{itemize}
+
+\subsection{Nomenclatura e Vocabulário de Arquivos}
+\label{subsec:niv_tutotial_nomenclatura_de_arquivos}
+
+Para evitar sobrescritas quando múltiplos voluntários unem seus arquivos no documento principal, adote o padrão corporativo \textit{Snake Case} (tudo minúsculo, sem espaços, sem acentos ou caracteres especiais).
+
+\begin{center}
+    \textbf{Padrão:} \verb|[prefixo]_[eixo]_[assunto]_[descrição].[extensão]|
+\end{center}
+
+\input{conteudo/_tutorial/tabelas/tab_niv_tutorial_nomenclatura}
+
+\input{conteudo/_tutorial/tabelas/tab_niv_tutorial_nomenclatura_exemplos}
+
+É estritamente proibido inventar abreviações para nomear arquivos. Você deve utilizar obrigatoriamente as \textit{tags} oficiais listadas no Anexo~\ref{} na composição do nome do arquivo.
+
+\subsection{Catálogo de Ambientes Semânticos}
+
+Sempre que precisar destacar uma informação ou criar uma estrutura acadêmica, utilize os macros do Nivelamento. A numeração e as cores institucionais do eixo são aplicadas automaticamente.
+
+\textbf{Atenção à Sintaxe de Etiquetas (Labels):} Para garantir que a numeração automática do gabarito e as referências cruzadas funcionem, os ambientes didáticos base exigem \textbf{dois colchetes sequenciais}: o primeiro para o título, e o segundo para a etiqueta oficial de rastreio. Se a questão não tiver título, você deve deixar o primeiro colchete vazio \verb|[]|.
+
+\begin{exemplo}[Uso do Ambiente exemplo][exemplo:niv_tutorial_uso_de_exemplo]
+    Exemplo com título e \textit{label}.
+    \begin{verbatim}
+        \begin{exemplo}[Cálculo de Área][exemplo:pc_geometria_area]
+            Considere um triângulo retângulo onde a base mede...
+        \end{exemplo}
+    \end{verbatim} 
+
+    Exemplo sem título, somente \textit{label}.
+    \begin{verbatim}
+        \begin{exercicio}[][ex:pc_algebra_eq_segundo_grau]
+            Resolva a equação de segundo grau: $x^2 - 5x + 6 = 0$.
+        \end{exercicio}
+    \end{verbatim}
+\end{exemplo}
+
+\begin{exemplo}[Uso do Ambiente de Exercício][exemplo:niv_tutorial_uso_exercicio]
+
+    Exemplo sem título especial, usando apenas colchetes vazios na primeira posição.
+    \begin{verbatim}
+        \begin{exercicio}[][ex:label]
+            Resolva a equação de segundo grau: $x^2 - 5x + 6 = 0$.
+        \end{exercicio}
+    \end{verbatim}
+
+    Ambientes de desafio seguem a mesma estrutura que o ambiente para exercícios.
+    \begin{verbatim}
+        \begin{desafio}[Questão de Olimpíada][desafio:label]
+            Demonstre que a soma dos ângulos internos...
+        \end{desafio}        
+    \end{verbatim}
+
+    Para o uso do ambiente \texttt{gabarito}, deve-se apontar para a \textit{label} do exercício.
+    \begin{verbatim}
+        \begin{gabarito}{ex:label}
+            As raízes são $x_1 = 2$ e $x_2 = 3$.
+        \end{gabarito}
+    \end{verbatim}
+\end{exemplo}
+
+\subsection{Catálogo de Macros Oficiais}
+
+Para manter a identidade visual do Nivelamento e evitar formatações manuais, a equipe técnica desenvolveu macros (comandos simplificados) que padronizam elementos frequentes do texto. O uso destas macros é obrigatório.
+
+\subsubsection{Destaque Semântico de Texto}
+
+É expressamente proibido o uso de comandos como \verb|\textcolor{red}{texto}| para colorir palavras. Para dar ênfase a um termo técnico ou conceito-chave, utilize a macro de destaque. Ela aplicará automaticamente o negrito e a cor oficial do eixo em que você está trabalhando.
+
+\textbf{Sintaxe:}
+\begin{verbatim}
+A \destaque{equação de segundo grau} é caracterizada por...
+\end{verbatim}
+
+\textbf{Resultado:} \\
+A \destaque{equação de segundo grau} é caracterizada por...
+
+\subsubsection{Atribuição de Autoria (Figuras e Tabelas)}
+
+Para atender ao rigor da ABNT sem poluir o código com espaçamentos manuais, utilize as macros de fonte logo abaixo do fechamento de tabelas ou da inserção de figuras.
+
+\textbf{1. Para materiais criados pela nossa equipe:}
+\begin{verbatim}
+\begin{table}[htb]
+    % ... (código da tabela) ...
+    \fonteNivelamento
+\end{table}
+\end{verbatim}
+\textbf{Resultado:} O sistema insere automaticamente o espaçamento correto e a frase: \textit{"Fonte: Elaborada pela Equipe do Nivelamento - ITEC."}
+
+\vspace{0.3cm}
+
+\textbf{2. Para materiais extraídos de livros ou internet:}
+\begin{verbatim}
+\begin{figure}[htb]
+    % ... (código da imagem) ...
+    \fonte{STEWART, 2016, p. 45.}
+\end{figure}
+\end{verbatim}
+\textbf{Resultado:} O sistema formata a citação externa dentro dos padrões de recuo da legenda.
+
+\subsection{Referenciamento e Etiquetas (\textit{Labels})}
+
+É obrigatório que todas as estruturas lógicas do documento (seções, figuras, tabelas, equações, códigos e blocos didáticos) possuam uma etiqueta de identificação.
+
+O formato da etiqueta deve respeitar a sintaxe de agrupamento do \LaTeX combinada com as tags oficiais de cada eixo:
+
+\begin{center}
+    \textbf{Formato Geral:} \verb|[categoria]:[eixo]_[assunto]_[detalhe]|
+\end{center}
+
+\input{conteudo/_tutorial/tabelas/tab_niv_tutorial_categorias_labels}
+
+\textbf{Atenção à Sintaxe de Aplicação}: As estruturas textuais comuns (seções, figuras, tabelas, equações) recebem a etiqueta através do comando tradicional \verb|\label{}| inserido dentro delas. 
+
+* \textbf{Exceção (Ambientes Didáticos):} Para Exercícios, Exemplos e Desafios, o \LaTeX não aceita o comando \verb|\label{}| solto no texto. A etiqueta deve ser obrigatoriamente passada no segundo colchete da declaração do ambiente, sem o comando \verb|\label{}|`.
+
+\begin{exemplo}[Diferença Entre Uso de \textit{Labels}][exemplo:niv_tutorial_uso_labels]
+    Correto para uma equação (usa \verb|\label| interno)
+    \begin{verbatim}
+        \begin{equation}
+            x^2 = 4
+            \label{eq:mat_basica_quadrado}
+        \end{equation}
+    \end{verbatim}
+
+    Correto para um exercício (usa o segundo colchete, sem \verb|\label|)
+    \begin{verbatim}
+        \begin{exercicio}[Cálculo Simples][ex:mat_basica_quadrado_ex]
+            Qual o valor de $x$?
+        \end{exercicio}
+    \end{verbatim}
+\end{exemplo}

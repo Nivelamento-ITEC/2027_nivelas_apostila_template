@@ -1,0 +1,124 @@
+% ======================================================================
+% MANUAL DO ARTÍFICE (COMPILADO NO TEMPLATE)
+% ======================================================================
+
+\section{Manual do Artífice}
+\label{sec:niv_tutorial_artifice}
+
+Esta seção é dedicada ao detalhamento e ao funcionamento das engrenagens internas do template e os protocolos de manutenção da infraestrutura modular.
+
+\subsection{Arquitetura do Template e Diretórios}
+
+O template está dividido em duas áreas de escopo isolado. Redatores operam apenas no diretório de conteúdo.
+
+\vspace{0.5cm}
+\dirtree{%
+.1 /.
+    .2 main.tex \dotfill \textit{Arquivo raiz de compilação}.
+    .2 README.md \dotfill \textit{Manual de diretrizes}.
+    .2 conteudo/ \dotfill \textit{Área de trabalho da equipe}.
+        .3 tutorial/.
+            .4 cap\_niv\_manual\_do\_artifice.tex \dotfill \textit{Este manual}. 
+            .4 cap\_niv\_manual\_do\_redator.tex \dotfill \textit{Este manual}.
+    .2 setup/ \dotfill \textit{Uso exclusivo da coordenação}.
+        .3 assets/.
+            .4 eixos\_icones/.
+            .4 titulo\_texto/.
+            .4 ufpa\_itec/.
+        .3 pre\_textual/.
+            .4 capa\_principal.tex.
+            .4 capa\_secundaria.tex.
+            .4 folha\_de\_rosto.tex.
+        .3 nivelamento\_ambientes.sty \dotfill \textit{Caixas, cabeçalhos e gráficos}.
+        .3 nivelamento\_base.sty \dotfill \textit{Pacotes, idioma e geometria}.
+        .3 nivelamento\_design.sty \dotfill \textit{Paleta de cores e logos}.
+        .3 nivelamento\_referencias.sty \dotfill \textit{Normas ABNT e links}.
+}
+\vspace{0.5cm}
+
+\subsection{Módulos}
+
+Para suportar o volume crescente de alunos e permitir que a equipe de voluntários trabalhem sem quebrar o documento, o código que governa as apostilas foi retirado do arquivo principal (\texttt{main.tex}) e dividido em quatro "motores" dedicados (os arquivos \texttt{.sty} localizados na pasta \texttt{/setup}).
+
+\subsubsection{Módulo Base}
+
+O arquivo \texttt{nivelamento\_base.sty} atua como o alicerce estrutural de todo o projeto em \LaTeX. Ele não define a estética, mas garante que tudo funcione de maneira estável e padronizada.
+
+Para facilitar a manutenção técnica, as responsabilidades deste arquivo estão divididas em quatro pilares funcionais:
+
+\begin{enumerate}
+    \item Codificação e Localização (Idioma): Carrega pacotes fundamentais do sistema, como \texttt{inputenc}, \texttt{fontenc} e \texttt{babel}. É este bloco que ensina o \LaTeX a "falar" português. Ele garante que caracteres especiais do nosso idioma sejam processados corretamente sem quebrar a compilação, além de automatizar regras complexas, como a hifenização correta no final das linhas de texto.
+
+    \item Geometria da Página: Controla o pacote geometry. Define matematicamente o tamanho do papel (A4) e estabelece as margens (superior, inferior, esquerda e direita). Ao isolarmos essa configuração aqui, impedimos que um erro humano altere acidentalmente as margens de uma única apostila, garantindo uniformidade na impressão de todos os eixos.
+
+
+    \item Motores Matemáticos: Incorpora a suíte completa da American Mathematical Society (pacotes amsmath, amssymb, amsfonts, entre outros). Como a oficina lida fortemente com áreas de Exatas (como Pré-Cálculo e Física), este pilar fornece todo o arsenal de símbolos matemáticos, matrizes, fontes cursivas e alinhamento de equações complexas que os redatores necessitam para estruturar exemplos, exercícios resolvidos e demonstrações.
+
+    \item Suporte a Mídias e Estruturas Básicas: Importa bibliotecas essenciais de renderização, como graphicx e float. Habilita o documento a importar imagens (PNG, JPG, SVG) de outras pastas e a ancorá-las corretamente na página, evitando que uma figura ou tabela flutue para um local indesejado e quebre a continuidade da leitura.
+\end{enumerate}
+
+A regra para atualizar este arquivo é a universalidade. Se, no futuro, o projeto necessitar de um novo pacote de uso geral (por exemplo, um pacote para desenhar tabelas mais elegantes, como o booktabs), ele deve ser declarado exclusivamente dentro deste arquivo \texttt{nivelamento\_base.sty}, e nunca no \texttt{main.tex}. Dessa forma, o novo recurso é imediatamente herdado por todos os arquivos do Nivelamento de forma silenciosa e centralizada.
+
+\subsubsection{Módulo de Identidade Visual}
+
+O arquivo \texttt{nivelamento\_design.sty} centraliza toda a identidade visual do Nivelamento e adapta a aparência da apostila de acordo com o eixo que está sendo compilado.
+
+O coração deste arquivo é a macro condicional \verb|\setDesign{}|, que funciona como uma chave mestra. Quando o coordenador digita \verb|\setDesign{PC}| no arquivo principal, este módulo intercepta o comando e injeta instantaneamente toda a identidade do Pré-Cálculo na engrenagem do PDF.
+
+Para blindar o layout e automatizar a estética, as responsabilidades deste arquivo estão divididas em três frentes:
+
+\begin{enumerate}
+    \item Paleta de Cores Matemáticas: Utiliza o pacote \texttt{xcolor} para definir códigos hexadecimais. Ele substitui cores rígidas por variáveis universais, nomeando-as como \texttt{main} (cor primária) e \texttt{main-dark} (cor de contraste). Garante que todo o documento se adapte como um tema de sistema operacional. Se o eixo for Pré-Cálculo, a cor \texttt{main} pinta títulos, bordas e ícones de azul. Se o \texttt{main.tex} for alterado para Física, a mesma variável \texttt{main} injeta vermelho em todo o arquivo. O redator nunca precisa se preocupar com cores.
+
+    \item Roteamento de Logotipos (Assets Institucionais): Cria macros semânticas (como \verb|\logoTextoNivelamento| ou \verb|\logoIconeEixo|) que embutem os caminhos de diretório exatos apontando para a pasta \verb|/setup/assets_institucionais|. Isola a complexidade das pastas. Os arquivos da capa e folha de rosto "puxam" essas variáveis cegas. É este módulo que decide se o ícone renderizado será o ícone do Eixo de Física ou o do Pré-Cálculo, impedindo que voluntários precisem caçar imagens soltas no repositório.
+
+    \item Automação de Ementas e Nomenclaturas: Armazena o nome oficial da disciplina (variável \verb|\eixo|) e o longo parágrafo explicativo que a coordenação exige na segunda página (variável \verb|\descricaoEixo|). Padroniza a comunicação institucional. O redator não precisa digitar a ementa do curso ou lembrar o nome dos diretores do ITEC; o módulo preenche os documentos oficiais automaticamente, zerando o risco de inconsistências entre as apostilas.
+\end{enumerate}
+
+A manutenção neste arquivo será extremamente rara e ocorrerá, via de regra, apenas quando a Oficina de Nivelamento inaugurar um novo eixo de ensino. Para expandir o sistema, o gestor não deve alterar os códigos antigos. O procedimento correto é copiar um bloco condicional inteiro (por exemplo, o bloco do PC), colá-lo ao final do arquivo, alterar a sigla identificadora (ex: \verb|\IfSubStr{#1}{XX}|) e substituir os códigos hexadecimais e os caminhos dos novos SVGs. A arquitetura de variáveis garantirá que o novo eixo funcione perfeitamente com todas as capas e caixas semânticas já existentes.
+
+
+\subsubsection{Módulo de Estruturas Didáticas}
+
+O arquivo \texttt{nivelamento\_ambientes.sty} é o núcleo de diagramação avançada do projeto e o principal responsável por garantir a premissa de que o redator foca no conteúdo enquanto o sistema cuida do layout.
+
+Seu objetivo é encapsular códigos complexos de desenho vetorial e formatação tipográfica dentro de comandos simples e intuitivos (como \verb|\begin{exercicio}|). 
+
+As competências deste módulo estão estruturadas em três frentes de atuação tipográfica e visual:
+
+\begin{enumerate}
+    \item Motores de Caixas e Meta-estilos (tcolorbox): Utiliza a biblioteca \texttt{tcolorbox} para desenhar os blocos visuais. Primeiro, ele cria "meta-estilos" (como o \texttt{estiloQuestao} e o \texttt{estiloNivelamento}), que funcionam como o CSS de uma página web, definindo regras universais de espaçamento interno (\textit{padding}), cantos arredondados, quebra automática de páginas e sombras. Garante coesão geométrica. Como todos os ambientes didáticos herdam esses meta-estilos, qualquer ajuste milimétrico feito pelo gestor (como aumentar a espessura da borda lateral) será propagado instantaneamente para todos os exercícios, exemplos e desafios de todas as apostilas.
+
+    \item Ambientes Semânticos (Automação Didática): Transforma os meta-estilos em comandos reais para a equipe através da diretiva \verb|\DeclareTColorBox|. Ele amarra a formatação visual a contadores automáticos, injeta os ícones do pacote \texttt{fontawesome} e gerencia a lógica das etiquetas \textit{labels} em dois colchetes. É o que permite a numeração inteligente. Este bloco rastreia em qual capítulo o redator está e gera numerações como "Exercício 1.1" de forma autônoma. Ele também impede que o gabarito perca a sincronia com a sua respectiva questão, gerindo as referências cruzadas.
+
+    \item Hierarquia de Títulos e Navegação (titlesec e tocloft): Intercepta os comandos nativos do LaTeX (\verb|\section|, \verb|\subsection| e \verb|\tableofcontents|) e os redesenha para aplicar a identidade visual do Nivelamento. Substitui os títulos genéricos por uma hierarquia forte e corporativa. Além disso, formata o Sumário com pontilhados e espaçamentos profissionais, removendo qualquer necessidade de o redator diagramar essas páginas iniciais.
+\end{enumerate}
+
+A intervenção neste arquivo será necessária apenas quando a organização dos Eixos decidir criar uma nova categoria didática no material. 
+
+Por exemplo, se for decidido que as apostilas agora terão blocos de "Curiosidade" ou "Atenção", o gestor não precisa programar do zero. Basta copiar a estrutura do \verb|\DeclareTColorBox| de um ambiente já existente (como o Exemplo), alterar o nome do comando de chamada, substituir o ícone da fonte \texttt{fontawesome} e ajustar a cor.
+
+\subsubsection{Módulo de Normas e Navegação}
+
+Este é último pilar da arquitetura. Enquanto os módulos anteriores constroem a fundação estrutural e a fachada estética, o \texttt{nivelamento\_referencias.sty} é responsável pelo rigor acadêmico e pela usabilidade digital do material. 
+
+Este arquivo isola as complexidades das normas da ABNT e a engenharia de hiperlinks, garantindo que a apostila final não seja apenas um documento estático para impressão, mas um ficheiro PDF inteligente e totalmente interativo.
+
+A responsabilidade deste ficheiro divide-se em três frentes focadas no leitor final e no rigor científico:
+
+\begin{enumerate}
+    \item Padronização Bibliográfica (Normas ABNT): Configura o motor de bibliografia para forçar o documento a obedecer às diretrizes da Associação Brasileira de Normas Técnicas no que tange a citações diretas, indiretas e à lista de referências ao final da apostila. O redator nunca precisa de memorizar se o ano vem entre parênteses ou se o título do livro deve estar em negrito. Ao utilizar o comando simples \verb|\cite{}|, este módulo intercepta a chamada e formata o texto com precisão cirúrgica, aliviando a carga cognitiva da equipe.
+
+    \item Interatividade e Hiperlinks (hyperref): Ativa e calibra o pacote \texttt{hyperref}, transformando referências de texto em botões digitais invisíveis. Ele também oculta aquelas caixas coloridas e inestéticas que o \LaTeX, por defeito, desenha ao redor dos links. É o que torna a apostila navegável. Graças a este bloco, quando um aluno clica num tópico do Sumário, ou quando um redator faz referência a um Gabarito, o leitor é transportado imediatamente para a página correta no PDF.
+
+    \item Injeção de Metadados no PDF: Aproveita a compilação para embutir informações invisíveis no ficheiro final (como o Título da Apostila, Autor e Assunto) nas propriedades digitais do documento. Garante o profissionalismo institucional. Quando o PDF é partilhado no Google Drive, em plataformas de ensino ou lido por softwares de acessibilidade, o documento é reconhecido pelo seu título e autoria corretos, em vez de aparecer apenas como um ficheiro genérico chamado "main.pdf".
+\end{enumerate}
+
+Este é o ficheiro mais estático de todo o template. A necessidade de manutenção aqui beira a zero.
+
+Uma intervenção técnica só será justificada em dois cenários muito específicos:
+\begin{enumerate}
+    \item Se a UFPA ou o ITEC alterarem o padrão oficial de referenciamento (por exemplo, migrando da ABNT para as normas APA ou IEEE).
+
+    \item Se a coordenação decidir alterar o comportamento visual dos cliques (por exemplo, exigindo que os links no texto fiquem sublinhados ou pintados de azul para destacar a interatividade para os alunos).
+\end{enumerate}

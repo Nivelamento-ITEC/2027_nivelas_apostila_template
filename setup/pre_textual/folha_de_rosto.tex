@@ -1,0 +1,40 @@
+% ======================================================================
+% FOLHA DE ROSTO (EXPEDIENTE)
+% Arquivo: setup/pre_textual/folha_de_rosto.tex
+% ======================================================================
+\newpage
+\thispagestyle{empty} % Remove numeração da página
+
+% --- CABEÇALHO INSTITUCIONAL ---
+\begin{flushleft}
+    \textbf{UNIVERSIDADE FEDERAL DO PARÁ}\\
+    \vspace{0.5cm}
+    \textbf{INSTITUTO DE TECNOLOGIA} \\
+    \vspace{0.5cm}
+    
+    Hito Braga de Moraes  \\
+    \textbf{DIRETOR GERAL} \\
+    \vspace{0.5cm}
+    
+    Miércio Cardoso de Alcântara Neto \\
+    \textbf{DIRETOR ADJUNTO}
+    \vspace{1cm}
+
+    % --- IDENTIFICAÇÃO DO PROJETO E EIXO ---
+    \begin{center}
+        \textbf{OFICINA DE NIVELAMENTO \edicao} \\
+        \vspace{0.5cm}
+        \MakeUppercase{\eixo} \\
+        \vspace{1cm}
+        \includesvg[height=2cm]{\logoTextoNivelamento}
+        \vspace{0.5cm}
+    \end{center}
+\end{flushleft}
+
+% --- DESCRIÇÃO DA EMENTA DO EIXO ---
+\begin{flushleft}
+    \justify
+    \descricaoEixo
+\end{flushleft}
+
+\newpage

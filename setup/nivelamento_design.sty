@@ -1,0 +1,280 @@
+% ======================================================================
+% PACOTE DE DESIGN - OFICINA DE NIVELAMENTO ITEC
+% Arquivo: nivelamento_design.sty
+% Finalidade: Identidade visual, cores institucionais e variáveis de eixo
+% ======================================================================
+
+\ProvidesPackage{nivelamento_design}[2026/09/30 Identidade visual e variaveis institucionais do Nivelamento ITEC]
+
+% Garante que pacotes essenciais de cor e strings estejam disponíveis neste módulo
+\RequirePackage{xcolor}
+\RequirePackage{xstring}
+
+% ----------------------------------------------------------------------
+% PALETA DE CORES BASE DO NIVELAMENTO
+% ----------------------------------------------------------------------
+% Define as cores institucionais de cada eixo para uso global
+\definecolor{colorNiv}{HTML}{006b8f}% Nivelamento
+\definecolor{colorPC}{HTML}{2357A0} % Pré-Cálculo
+\definecolor{colorPG}{HTML}{FBBC04} % Programação
+\definecolor{colorQI}{HTML}{15CBC7} % Química
+\definecolor{colorBIO}{HTML}{0D8440}% Biologia
+\definecolor{colorIB}{HTML}{4B2BA1} % Informática Básica
+\definecolor{colorFI}{HTML}{B20A32} % Física
+\definecolor{colorSRG}{HTML}{025900}% Seringueiros
+\definecolor{colorDMK}{HTML}{A50B5E}% Divulgação e Marketing
+\definecolor{colorTI}{HTML}{348989} % Tecnologia e Inovação
+\definecolor{colorWI}{HTML}{FFFFFF} % Branco padrão para contraste
+                                        
+% ----------------------------------------------------------------------
+% MOTOR DE IDENTIDADE (MACRO \setDesign)
+% ----------------------------------------------------------------------
+% Esta macro automatiza a mudança de cores, logos e descrições com base
+% na sigla do eixo passada como argumento. 
+
+% --- MACROS GLOBAIS ---
+    \newcommand{\logoUfpa}{setup/assets/ufpa_itec/logo_ufpa_oficial.svg}
+    \newcommand{\logoItec}{setup/assets/ufpa_itec/logo_itec_oficial.svg}
+    \newcommand{\logoTutoria}{setup/assets/ufpa_itec/logo_tutoria_oficial.svg}
+
+\newcommand{\setDesign}[1]{%
+  % --- EIXO GERAL: NIVELAMENTO ---
+  \IfSubStr{#1}{NIV}{
+    \definecolor{main}{HTML}{006b8f}
+    \definecolor{main-dark}{HTML}{0b475b}
+    \colorlet{color0}{main}
+    \colorlet{color1}{colorFI}
+    \colorlet{color2}{colorPG}
+    \colorlet{color3}{colorBIO}
+    \colorlet{color4}{colorSRG}
+    \colorlet{color5}{colorTI}
+    \colorlet{color6}{colorQI}
+    \colorlet{color7}{colorPC}
+    \colorlet{color8}{colorIB}
+    \colorlet{color9}{colorDMK}
+    
+    \newcommand{\eixo}{Oficina de Nivelamento}
+    \newcommand{\logoIconeEixo}{setup/assets/eixos_icones/logo_eixo_padrao.svg}                     % ícone do eixo colorido 'logo_eixo_[eixo].svg'
+    \newcommand{\logoIconeEixoBranco}{setup/assets/eixos_icones/logo_eixo_padrao_white.svg}         % ícone do exio em branco 'logo_eixo_[eixo]_white.svg'
+    \newcommand{\logoTextoNivelamento}{setup/assets/titulo_texto/logo_niv_texto_padrao.svg}         % SVG na capa da apostila 'logo_niv_texto_[eixo]'
+    \newcommand{\descricaoEixo}{A Oficina de Nivelamento do ITEC é uma iniciativa do Instituto de Tecnologia visando promover a aprendizagem para discentes que possuem dificuldades oriundas da formação na Educação Básica nas áreas de Matemática, Ciências Exatas e Ciências da Natureza, com a metodologia empregada oferecendo bases teóricas para favorecer o desempenho dos discentes de forma integral e continuada por meio aulas expositivas e práticas envolvendo os seguintes eixos de ensino: Pré-Cálculo, Física, Química, Biologia, Programação e Informática Básica.}
+  }{}%
+
+  % --- EIXO: PRÉ-CÁLCULO (PC) ---
+  \IfSubStr{#1}{PC}{
+    \definecolor{main}{HTML}{2357A0}
+    \definecolor{main-dark}{HTML}{223C75}
+    \colorlet{color0}{colorPC}
+    \colorlet{color1}{colorIB}
+    \colorlet{color2}{colorFI}
+    \colorlet{color3}{colorPG}
+    \colorlet{color4}{colorBIO}
+    \colorlet{color5}{colorQI}
+    \colorlet{color6}{colorWI}
+    \colorlet{color7}{colorWI}
+    \colorlet{color8}{colorWI}
+    \colorlet{color9}{colorWI}
+    
+    \newcommand{\eixo}{Pré-Cálculo}
+    \newcommand{\participantes}{participantes/PC_participantes}
+    \newcommand{\logoIconeEixo}{setup/assets/eixos_icones/logo_eixo_pc.svg}
+    \newcommand{\logoIconeEixoBranco}{setup/assets/eixos_icones/logo_eixo_pc_white.svg}
+    \newcommand{\logoTextoNivelamento}{setup/assets/titulo_texto/logo_niv_texto_pc.svg}
+    \newcommand{\descricaoEixo}{O Pré-Cálculo refere-se a um conjunto de conceitos e habilidades matemáticas fundamentais que são essenciais para um bom acompanhamento das primeiras disciplinas dos cursos de graduação. O eixo se propõe a apresentar e/ou relembrar os conteúdos abordados no ciclo básico da educação, sendo esses: aritmética, álgebra, trigonometria, conjuntos e funções. Esses conteúdos são a base, por exemplo, para o estudo do Cálculo Diferencial e Integral para as Engenharias.}
+  }{}%
+
+  % --- EIXO: FÍSICA (FI) ---
+  \IfSubStr{#1}{FI}{
+    \definecolor{main}{HTML}{B20A32}
+    \definecolor{main-dark}{HTML}{910828}
+    \colorlet{color0}{colorFI}
+    \colorlet{color1}{colorPG}
+    \colorlet{color2}{colorBIO}
+    \colorlet{color3}{colorQI}
+    \colorlet{color4}{colorPC}
+    \colorlet{color5}{colorIB}
+    \colorlet{color6}{colorWI}
+    \colorlet{color7}{colorWI}
+    \colorlet{color8}{colorWI}
+    \colorlet{color9}{colorWI}
+    
+    \newcommand{\eixo}{Física}
+    \newcommand{\participantes}{participantes/FI_participantes}
+    \newcommand{\logoIconeEixo}{setup/assets/eixos_icones/logo_eixo_fi.svg}
+    \newcommand{\logoIconeEixoBranco}{setup/assets/eixos_icones/logo_eixo_fi_white.svg}
+    \newcommand{\logoTextoNivelamento}{setup/assets/titulo_texto/logo_niv_texto_fi.svg}
+    \newcommand{\descricaoEixo}{A Física compreende uma variedade de tópicos fundamentais que servem como alicerce para o entendimento das leis e fenômenos naturais que regem o universo físico. Este conjunto de conceitos visa fornecer uma base sólida para a compreensão e análise dos fenômenos físicos observados na natureza e na engenharia, fornecendo uma base crucial para disciplinas introdutórias dos cursos.}
+  }{}%
+
+  % --- EIXO: PROGRAMAÇÃO (PG) ---
+  \IfSubStr{#1}{PG}{
+    \definecolor{main}{HTML}{FBBC04}
+    \definecolor{main-dark}{HTML}{C99703}
+    \colorlet{color0}{colorPG}
+    \colorlet{color1}{colorBIO}
+    \colorlet{color2}{colorQI}
+    \colorlet{color3}{colorPC}
+    \colorlet{color4}{colorIB}
+    \colorlet{color5}{colorFI}
+    \colorlet{color6}{colorWI}
+    \colorlet{color7}{colorWI}
+    \colorlet{color8}{colorWI}
+    \colorlet{color9}{colorWI}
+    \newcommand{\eixo}{Programação}
+    \newcommand{\participantes}{participantes/PG_participantes}
+    \newcommand{\logoIconeEixo}{setup/assets/eixos_icones/logo_eixo_pg.svg}
+    \newcommand{\logoIconeEixoBranco}{setup/assets/eixos_icones/logo_eixo_pg_white.svg}
+    \newcommand{\logoTextoNivelamento}{setup/assets/titulo_texto/logo_niv_texto_pg.svg}
+    \newcommand{\descricaoEixo}{A Programação abrange uma série de conceitos fundamentais para o desenvolvimento de habilidades em codificação e resolução de problemas computacionais. Inclui Algoritmos e Lógica de Programação, onde os alunos aprendem a decompor problemas em passos lógicos e algoritmos eficientes. As seções sobre Sintaxe, Variáveis e Operadores introduzem os elementos básicos da linguagem de programação, fornecendo a base para a construção de programas simples. Estruturas Condicionais e de Repetição capacitam os alunos a controlar o fluxo de execução de seus programas com base em condições e repetições. A prática em Pseudocódigo permite aos alunos expressar algoritmos de forma mais abstrata e independente de linguagem.}
+  }{}%
+
+  % --- EIXO: QUÍMICA (QI) ---
+  \IfSubStr{#1}{QI}{
+    \definecolor{main}{HTML}{15CBC7}
+    \definecolor{main-dark}{HTML}{0F8A88}
+    \colorlet{color0}{colorQI}
+    \colorlet{color1}{colorPC}
+    \colorlet{color2}{colorIB}
+    \colorlet{color3}{colorFI}
+    \colorlet{color4}{colorPG}
+    \colorlet{color5}{colorBIO}
+    \colorlet{color6}{colorWI}
+    \colorlet{color7}{colorWI}
+    \colorlet{color8}{colorWI}
+    \colorlet{color9}{colorWI}
+    \newcommand{\eixo}{Química}
+    \newcommand{\participantes}{participantes/QI_participantes}
+    \newcommand{\logoIconeEixo}{setup/assets/eixos_icones/logo_eixo_qi.svg}
+    \newcommand{\logoIconeEixoBranco}{setup/assets/eixos_icones/logo_eixo_qi_white.svg}
+    \newcommand{\logoTextoNivelamento}{setup/assets/titulo_texto/logo_niv_texto_qi.svg}
+    \newcommand{\descricaoEixo}{A Química abrange uma série de conceitos fundamentais para a compreensão das interações e transformações da matéria. Inclui estudos em Atomística, Tabela Periódica e Ligações Químicas, fornecendo a base para compreender a estrutura e o comportamento dos átomos e das substâncias. Aborda também Reações Químicas, Estequiometria e Soluções, explorando as proporções e quantidades envolvidas nas transformações químicas. Os tópicos de Ácidos e Bases, Química Orgânica, Cinética e Equilíbrio, Eletroquímica e Termoquímica fornecem uma compreensão mais aprofundada das reações químicas, suas velocidades, equilíbrios e energia associada, desempenhando um papel crucial na compreensão dos processos químicos em diversos contextos, desde a vida cotidiana até a indústria e pesquisa científica.}
+  }{}%
+
+    % --- EIXO: BIOLOGIA (BIO) ---
+  \IfSubStr{#1}{BIO}{
+    \definecolor{main}{HTML}{0D8440}
+    \definecolor{main-dark}{HTML}{074622}
+    \colorlet{color0}{colorBIO}
+    \colorlet{color1}{colorQI}
+    \colorlet{color2}{colorPC}
+    \colorlet{color3}{colorIB}
+    \colorlet{color4}{colorFI}
+    \colorlet{color5}{colorPG}
+    \colorlet{color6}{colorWI}
+    \colorlet{color7}{colorWI}
+    \colorlet{color8}{colorWI}
+    \colorlet{color9}{colorWI}
+    \newcommand{\eixo}{Biologia}
+    \newcommand{\participantes}{participantes/BIO_participantes}
+    \newcommand{\logoIconeEixo}{setup/assets/eixos_icones/logo_eixo_bio.svg}
+    \newcommand{\logoIconeEixoBranco}{setup/assets/eixos_icones/logo_eixo_bio_white.svg}
+    \newcommand{\logoTextoNivelamento}{setup/assets/titulo_texto/logo_niv_texto_bio.svg}
+    \newcommand{\descricaoEixo}{A Biologia compreende uma variedade de temas essenciais para compreender a vida em suas diferentes formas e interações. Isso inclui o estudo dos organismos "vivos" e biossegurança, promovendo uma compreensão dos princípios de segurança e ética no trabalho com seres vivos. A Microbiologia básica e aplicada oferece uma visão detalhada do mundo microscópico, abordando tanto os microrganismos patogênicos quanto os benéficos. A abordagem por problemáticas envolvendo os conceitos de ecologia oferece uma compreensão integrada das interações entre os seres vivos e o ambiente, analisando questões como conservação, impacto humano e equilíbrio dos ecossistemas. Esses temas fornecem uma base sólida para a compreensão da vida em seus diversos níveis de organização, desde o molecular até o ecológico, e são fundamentais para várias disciplinas biológicas e áreas afins.}
+  }{}%
+
+  % --- EIXO: INFORMÁTICA BÁSSICA (IB) ---
+  \IfSubStr{#1}{IB}{
+    \definecolor{main}{HTML}{4B2BA1}
+    \definecolor{main-dark}{HTML}{2E1B65}
+    \colorlet{color0}{colorIB}
+    \colorlet{color1}{colorFI}
+    \colorlet{color2}{colorPG}
+    \colorlet{color3}{colorBIO}
+    \colorlet{color4}{colorQI}
+    \colorlet{color5}{colorPC}
+    \colorlet{color6}{colorWI}
+    \colorlet{color7}{colorWI}
+    \colorlet{color8}{colorWI}
+    \colorlet{color9}{colorWI}
+    \newcommand{\eixo}{Informática Básica}
+    \newcommand{\participantes}{participantes/IB_participantes}
+    \newcommand{\logoIconeEixo}{setup/assets/eixos_icones/logo_eixo_ib.svg}
+    \newcommand{\logoIconeEixoBranco}{setup/assets/eixos_icones/logo_eixo_ib_white.svg}
+    \newcommand{\logoTextoNivelamento}{setup/assets/titulo_texto/logo_niv_texto_ib.svg}
+    \newcommand{\descricaoEixo}{A Informática Básica engloba uma variedade de tópicos essenciais para a compreensão e utilização eficaz de recursos tecnológicos. Começando com uma introdução ao Computador e seus periféricos, os alunos aprendem sobre hardware e dispositivos de entrada e saída. O estudo do Sistema Operacional e Navegador oferece uma compreensão fundamental do ambiente de trabalho digital e da navegação na internet, incluindo o acesso aos serviços informatizados da UFPA. A exploração do Pacote Google introduz ferramentas de produtividade colaborativa, como processamento de texto, planilhas e apresentações, facilitando a colaboração e a criação de documentos online. Por fim, a familiarização com Ferramentas Utilitárias, como o ChatGPT e outras, oferece aos alunos a capacidade de utilizar recursos de comunicação e produtividade de forma eficiente. Estes conhecimentos formam a base para uma utilização mais avançada e eficaz da tecnologia no ambiente acadêmico e profissional.}
+  }{}%
+
+    % --- EIXO: SERINGEIROS (SRG) ---
+  \IfSubStr{#1}{SRG}{
+    \definecolor{main}{HTML}{025900}
+    \definecolor{main-dark}{HTML}{013300}
+    \colorlet{color0}{colorSRG}
+    \colorlet{color1}{colorFI}
+    \colorlet{color2}{colorPG}
+    \colorlet{color3}{colorBIO}
+    \colorlet{color4}{colorQI}
+    \colorlet{color5}{colorPC}
+    \colorlet{color6}{colorIB}
+    \colorlet{color7}{colorWI}
+    \colorlet{color8}{colorWI}
+    \colorlet{color9}{colorWI}
+    
+    \newcommand{\eixo}{Seringueiros}
+    \newcommand{\logoIconeEixo}{setup/assets/eixos_icones/logo_eixo_srg.svg}
+    \newcommand{\logoIconeEixoBranco}{setup/assets/eixos_icones/logo_eixo_srg_white.svg}
+    \newcommand{\logoTextoNivelamento}{setup/assets/titulo_texto/logo_niv_texto_srg.svg}
+    \newcommand{\descricaoEixo}{}
+  }{}%
+
+  % --- EIXO: DIVULGAÇÃO E MARKETING (PG) ---
+  \IfSubStr{#1}{DMK}{
+    \definecolor{main}{HTML}{025900}
+    \definecolor{main-dark}{HTML}{013300}
+    \colorlet{color0}{colorDMK}
+    \colorlet{color1}{colorFI}
+    \colorlet{color2}{colorPG}
+    \colorlet{color3}{colorBIO}
+    \colorlet{color4}{colorQI}
+    \colorlet{color5}{colorPC}
+    \colorlet{color6}{colorIB}
+    \colorlet{color7}{colorWI}
+    \colorlet{color8}{colorWI}
+    \colorlet{color9}{colorWI}
+    
+    \newcommand{\eixo}{Divulgação e Marketing}
+    \newcommand{\logoIconeEixo}{setup/assets/eixos_icones/logo_eixo_dmk.svg}
+    \newcommand{\logoIconeEixoBranco}{setup/assets/eixos_icones/logo_eixo_dmk_white.svg}
+    \newcommand{\logoTextoNivelamento}{setup/assets/titulo_texto/logo_niv_texto_dmk.svg}
+    \newcommand{\descricaoEixo}{}
+  }{}%
+
+  % --- EIXO: TECNOLOGIA E INOVAÇÃO (PG) ---
+  \IfSubStr{#1}{TI}{
+  \definecolor{main}{HTML}{025900}
+  \definecolor{main-dark}{HTML}{013300}
+    \colorlet{color0}{colorTI}
+    \colorlet{color1}{colorFI}
+    \colorlet{color2}{colorPG}
+    \colorlet{color3}{colorBIO}
+    \colorlet{color4}{colorQI}
+    \colorlet{color5}{colorPC}
+    \colorlet{color6}{colorIB}
+    \colorlet{color7}{colorWI}
+    \colorlet{color8}{colorWI}
+    \colorlet{color9}{colorWI}
+    
+  \newcommand{\eixo}{Tecnologia e Inovação}
+    \newcommand{\logoIconeEixo}{setup/assets/eixos_icones/logo_eixo_ti.svg}
+    \newcommand{\logoIconeEixoBranco}{setup/assets/eixos_icones/logo_eixo_ti_white.svg}
+    \newcommand{\logoTextoNivelamento}{setup/assets/titulo_texto/logo_niv_texto_ti.svg}
+  \newcommand{\descricaoEixo}{}
+  }{}%
+}
+
+% ----------------------------------------------------------------------
+% MACROS DE ESTRUTURA PRÉ-TEXTUAL (ENCAPSULAMENTO)
+% ----------------------------------------------------------------------
+% Estes comandos blindam o main.tex contra quebras de diretório.
+% A equipe apenas chama o comando, e o sistema roteia o caminho exato.
+
+\newcommand{\inserirCapaPrincipal}{%
+    \input{setup/pre_textual/capa_principal}%
+}
+
+\newcommand{\inserirCapaSecundaria}{%
+    \input{setup/pre_textual/capa_secundaria}%
+}
+
+\newcommand{\inserirFolhaDeRosto}{%
+    \input{setup/pre_textual/folha_de_rosto}%
+}

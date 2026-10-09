@@ -1,0 +1,32 @@
+% ======================================================================
+% CAPA SECUNDÁRIA (INTERNA)
+% Arquivo: setup/pre_textual/capa_secundaria.tex
+% ======================================================================
+\thispagestyle{empty} % Remove numeração da página
+
+% --- LOGO E CABEÇALHO DA UNIVERSIDADE ---
+\begin{center}
+    \includesvg[height = 2 cm]{\logoUfpa}
+\end{center}
+
+\begin{center}    
+    UNIVERSIDADE FEDERAL DO PARÁ \\
+    INSTITUTO DE TECNOLOGIA \\
+    \vspace{4 cm}
+    
+    % --- LOGO DO PROJETO ---
+    \includesvg[width = 0.4\paperwidth]{\logoTextoNivelamento}
+    \vspace{4 cm}
+    
+    % --- IDENTIFICAÇÃO DO CONTEÚDO ---
+    \Large
+    \textbf{\eixo}\\
+    \assunto
+
+    \normalsize
+    \vspace*{\fill} % Empurra o texto seguinte para a base da página
+    
+    % --- LOCAL E DATA ---
+    BELÉM \\ 
+    \ano
+\end{center}

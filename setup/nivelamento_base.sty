@@ -1,0 +1,89 @@
+% ======================================================================
+% PACOTE BASE - OFICINA DE NIVELAMENTO ITEC
+% Arquivo: nivelamento_base.sty
+% Finalidade: Configurações de compilação, idioma, matemática e lógica
+% ======================================================================
+
+\ProvidesPackage{nivelamento_base}[2026/09/30 Pacote de dependencias basicas para as apostilas do Nivelamento ITEC]
+
+% ----------------------------------------------------------------------
+% IDIOMA E CODIFICAÇÃO
+% ----------------------------------------------------------------------
+\usepackage[T1]{fontenc}        % Permite copiar textos com acentos do PDF corretamente
+\usepackage[utf8]{inputenc}     % Aceita digitação direta de caracteres acentuados (UTF-8)
+\usepackage[brazil]{babel}      % Traduz termos automáticos (ex: "Chapter" para "Capítulo") e ajusta hifenização
+
+% ----------------------------------------------------------------------
+% GEOMETRIA E LAYOUT DA PÁGINA
+% ----------------------------------------------------------------------
+\usepackage[
+    headheight=1.5cm, 
+    top=3.5cm, 
+    bottom=2.0cm, 
+    left=3.0cm, 
+    right=2.0cm
+]{geometry}         % Define as margens físicas do documento
+
+\usepackage{setspace}           % Permite alterar o espaçamento entre linhas (simples, 1.5, duplo)
+\usepackage{ragged2e}           % Melhora o algoritmo de alinhamento e justificação de texto
+\usepackage{multicol}           % Habilita a divisão do texto em múltiplas colunas
+\setlength{\columnsep}{0.8cm}   % Define o distanciamento padrão entre as colunas
+
+\usepackage{indentfirst}        % Força o recuo (parágrafo) na primeira linha após um título
+\setlength{\parindent}{1.25cm}  % Define o tamanho padrão do recuo de parágrafo
+\usepackage{float}              % Melhora o posicionamento de figuras e tabelas (permite o uso do parâmetro [H])
+
+% ----------------------------------------------------------------------
+% PACOTES MATEMÁTICOS BÁSICOS E AVANÇADOS
+% ----------------------------------------------------------------------
+\usepackage{amsmath}            % Pacote principal da AMS para equações e ambientes matemáticos
+\usepackage{amsthm}             % Facilita a criação de ambientes como Teoremas, Lemas e Provas
+\usepackage{amsfonts}           % Fontes matemáticas adicionais (ex: letras estilizadas para conjuntos numéricos)
+\usepackage{mathrsfs}           % Fornece a fonte \mathscr para letras cursivas matemáticas
+\usepackage{mathdots}           % Melhora o alinhamento de reticências em matrizes e equações
+\usepackage{cancel}             % Permite traçar linhas de cancelamento sobre termos em equações (ex: cortar zeros)
+
+% ----------------------------------------------------------------------
+% GRÁFICOS, CORES E MÍDIA (SEM CONFLITOS DE DRIVER)
+% ----------------------------------------------------------------------
+% Removido o driver [dvips] para garantir compatibilidade com pdflatex/xelatex modernos
+\usepackage{graphicx}           % Pacote base para inclusão de imagens (jpg, png, pdf)
+\usepackage[table]{xcolor}      % Habilita o uso de cores no texto, equações e tabelas
+\usepackage{svg}                % Permite a inserção direta de arquivos vetoriais .svg
+\usepackage{transparent}        % Suporte a elementos gráficos com opacidade/transparência
+\RequirePackage{dirtree}        % Suporte a elementos de arvore de diretórios
+
+% Gerenciamento de Legendas (Ajuste de espaçamento ABNT para tabelas)
+\RequirePackage{caption}
+\captionsetup[table]{skip=10pt} % Define uma margem de 10 pontos entre a legenda e a tabela
+
+% ----------------------------------------------------------------------
+% LISTAS E ESTRUTURAS DE TÓPICOS
+% ----------------------------------------------------------------------
+% Removido o pacote 'enumerate' para evitar choque com o 'enumitem'
+\usepackage{enumitem}           % Controle total e customização avançada de listas (itemize, enumerate, description)
+\setlist[itemize]{label=\textcolor{main}{\textbullet}} % Define o estilo padrão das listas não numeradas
+
+% ----------------------------------------------------------------------
+% PROGRAMAÇÃO E LÓGICA INTERNA (MACROS)
+% ----------------------------------------------------------------------
+\usepackage{ifthen}             % Permite a criação de comandos com lógica condicional (IF-THEN-ELSE)
+\usepackage{xifthen}            % Extensão do ifthen, adiciona comandos para checar se argumentos estão vazios
+\usepackage{xstring}            % Manipulação e checagem de strings (usado na configuração dos eixos)
+\usepackage{expl3}              % Habilita a sintaxe de programação LaTeX3 para macros mais complexas
+
+% ----------------------------------------------------------------------
+% LÓGICA CONDICIONAL E CHAVEAMENTO DE COMPILAÇÃO
+% ----------------------------------------------------------------------
+\RequirePackage{etoolbox}
+
+\newtoggle{modoTutorial} % Cria a chave (toggle) na memória do LaTeX
+
+% Cria o comando amigável para a interface do main.tex
+\newcommand{\tutorial}[1]{%
+    \ifstrequal{#1}{on}%
+        {\toggletrue{modoTutorial}}%
+        {\togglefalse{modoTutorial}}%
+}
+
+\tutorial{off} % Trava de Segurança: Por padrão, o template nasce em modo produção (off)

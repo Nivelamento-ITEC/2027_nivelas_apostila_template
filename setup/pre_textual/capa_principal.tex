@@ -1,0 +1,67 @@
+% ======================================================================
+% CAPA PRINCIPAL (EXTERNA COM DESIGN GEOMÉTRICO)
+% Arquivo: setup/pre_textual/capa_principal.tex
+% ======================================================================
+\thispagestyle{empty} % Remove numeração da página
+
+% Altera temporariamente as margens para acomodar a barra lateral colorida
+\newgeometry{top=1cm, bottom=2cm, left=5cm, right=0cm}
+
+% --- BACKGROUND E GRAFISMOS (TIKZ) ---
+\begin{tikzpicture}[remember picture,overlay]
+    % Opções de separação
+    \tikzset{x=10pt, y=10pt}
+    
+    % Loop para gerar as faixas coloridas na lateral esquerda (cores de 1 a 9)
+    \foreach \i in {1,2,3,4,5,6,7,8,9}{
+        \fill[color\i] 
+        ([xshift={0.25*\paperwidth + (\i-1)*0.01*\paperwidth}]current page.north west) % Canto superior esquerdo deslocado
+        rectangle 
+        ([xshift={- 0.26*\paperwidth + (\i-1)*0.01*\paperwidth}]current page.south);    % Canto inferior direito deslocado
+    }
+    
+    % Faixa sólida com a cor principal do eixo (color0)
+    \fill [color0] (current page.north west) rectangle ([xshift = - 0.26\paperwidth]current page.south);
+
+    % Inserção do ícone branco do eixo centralizado na barra lateral
+    \node (anchor=center) at ([xshift = 0.125\paperwidth]current page.west) [opacity=1]{\includesvg[width=0.1\paperwidth]{\logoIconeEixoBranco}};
+\end{tikzpicture}
+
+% --- CONTEÚDO TEXTUAL E LOGOS DA CAPA ---
+\begin{center}
+    % Logo da UFPA no topo
+    \includesvg[width = 0.1\linewidth]{\logoUfpa}
+    \vspace{0.1\paperheight}
+    
+    % Logo texto do Nivelamento
+    \includesvg[width = 0.5\linewidth]{\logoTextoNivelamento}
+    \vspace{0.1\paperheight}
+
+    % Nome do Eixo
+    \LARGE
+    \textbf{\eixo}
+    \vspace{0.05\paperheight}
+
+    % Assunto / Título da Apostila
+    \begin{minipage}{0.6\paperwidth}
+         \centering
+         \assunto
+    \end{minipage}
+    
+    \normalsize
+    \vspace*{\fill} % Empurra as logos do rodapé para o limite inferior
+
+    % --- RODAPÉ: PARCERIAS E APOIO ---
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includesvg[width = 0.3\linewidth]{\logoTutoria}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includesvg[width = 0.3\linewidth]{\logoItec}
+    \end{minipage}
+\end{center}
+
+% Restaura as margens originais do documento para as páginas seguintes
+\restoregeometry

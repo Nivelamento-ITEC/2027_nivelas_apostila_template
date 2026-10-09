@@ -1,0 +1,41 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{setup/nivelamento_base}
+\usepackage{setup/nivelamento_design}
+\usepackage{setup/nivelamento_ambientes}
+\usepackage{setup/nivelamento_referencias}
+
+\newcommand{\key}{NIV}   % Define o eixo para carregar as cores e variáveis automaticamente
+\newcommand{\ano}{2027} % Ano da edição
+\newcommand{\edicao}{2027.2}
+\newcommand{\assunto}{Teste de Template}
+\setDesign{\key}
+
+% CHAVE DO TUTORIAL: 'on' compila o manual, 'off' compila a apostila
+\tutorial{on} 
+
+\begin{document}
+    % Início da apostila
+
+    % Elementos pré-textuais estáticos
+    \inserirCapaPrincipal
+    \inserirCapaSecundaria
+    \inserirFolhaDeRosto
+
+% =======================================================
+% ROTEAMENTO DE CONTEÚDO (IF / ELSE)
+% =======================================================
+    \iftoggle{modoTutorial}{
+        % --- CONDIÇÃO VERDADEIRA (TUTORIAL = ON) ---
+        % O LaTeX ignora todo o resto e compila apenas isto:
+        \input{conteudo/_tutorial/cap_niv_manual_do_redator}
+        \input{conteudo/_tutorial/cap_niv_manual_do_artifice}
+    }{
+        % --- CONDIÇÃO FALSA (TUTORIAL = OFF) ---
+        % Aqui entra a lista de aulas oficiais da apostila:
+        % \input{...}
+
+        Esperando por conteúdo...
+    }
+    
+\end{document}

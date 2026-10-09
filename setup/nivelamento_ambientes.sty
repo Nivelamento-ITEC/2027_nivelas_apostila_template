@@ -1,0 +1,296 @@
+% ======================================================================
+% PACOTE DE AMBIENTES - OFICINA DE NIVELAMENTO ITEC
+% Arquivo: nivelamento_ambientes.sty
+% Finalidade: Cabeçalhos, estilos de código, caixas de texto e seções
+% ======================================================================
+
+\ProvidesPackage{nivelamento_ambientes}[2026/09/30 Ambientes estruturais e visuais blindados]
+
+% ----------------------------------------------------------------------
+% CABEÇALHOS E RODAPÉS
+% ----------------------------------------------------------------------
+\RequirePackage{fancyhdr}
+\fancyhf{} % Limpa os cabeçalhos e rodapés padrão
+\renewcommand{\headrulewidth}{0.5pt} 
+
+% Cabeçalho esquerdo: Logo do eixo atual (depende da macro \setDesign)
+\fancyhead[l]{\includesvg[height=1.25cm]{\logoTextoNivelamento}} 
+% Cabeçalho direito: Texto institucional
+\rhead{Universidade Federal do Pará \\ Instituto de Tecnologia \\ {\eixo}} 
+
+% Rodapé: Numeração alternada para impressão frente e verso
+\fancyfoot[C]{%
+  \ifthenelse{\isodd{\value{page}}}{\hfill\thepage}{\thepage\hfill}%
+}
+\pagestyle{fancy}
+
+% ----------------------------------------------------------------------
+% PADRONIZAÇÃO DE FONTES PARA ELEMENTOS FLUTUANTES (ABNT)
+% ----------------------------------------------------------------------
+% Comando genérico para fontes externas
+\newcommand{\fonte}[1]{
+    \vspace{0.2cm}
+    \caption*{\small{Fonte: #1}}
+}
+
+% Comando automático para material autoral do projeto
+\newcommand{\fonteNivelamento}{
+    \vspace{0.2cm}
+    \caption*{\small{Fonte: Elaborada pela Equipe do Nivelamento - ITEC.}}
+}
+
+% ----------------------------------------------------------------------
+% FORMATAÇÃO DE CÓDIGOS FONTE E TERMINAL
+% ----------------------------------------------------------------------
+\RequirePackage{listings} % ADICIONADO: Faltava no preâmbulo original
+
+% Cores auxiliares exclusivas para blocos de código
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codeblue}{rgb}{0,0.42,0.56}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+
+% Estilo 1: Código Fonte padrão
+\lstdefinestyle{codigo}{
+    backgroundcolor=\color{gray!10},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\fontsize{10}{10}\ttfamily,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    literate= % Suporte a caracteres acentuados omitido aqui por brevidade (mantenha o original)
+}
+
+% Estilo 2: Terminal / Prompt de comando
+\lstdefinestyle{terminal}{
+    backgroundcolor=\color{black},   
+    commentstyle=\color{white},
+    keywordstyle=\color{white},
+    numbers=none, 
+    stringstyle=\color{white},
+    basicstyle=\fontsize{8}{10}\ttfamily,
+    breaklines=true,                 
+    keepspaces=true,                 
+    tabsize=2
+}
+\lstset{style=codigo} % Define 'codigo' como o comportamento padrão
+
+% Macro para código inline no meio do texto
+\newcommand{\inlinecode}[1]{%
+    \tcbox[on line, boxrule=0pt, top=0.05cm, bottom=-0.01cm, arc=0.25cm, colback=main, colframe=white, width=auto, left=1pt, right=1pt]{\color{white}\footnotesize\texttt{\textbf{#1}}}%
+}
+
+% ----------------------------------------------------------------------
+% CAIXAS DE TEXTO SEMÂNTICAS (BLINDAGEM)
+% ----------------------------------------------------------------------
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{fontawesome}
+\RequirePackage{varwidth}
+
+% REGRA PARA A EQUIPE: É proibido usar \begin{tcolorbox} diretamente.
+% Os redatores devem usar APENAS os ambientes semânticos abaixo.
+
+% Ambiente: Caixa de Atenção / Importante
+\newtcolorbox{boxAtencao}[1][]{
+    enhanced,
+    boxrule=0pt,
+    frame hidden,
+    borderline west={4pt}{0pt}{main-dark},
+    colback=main!10!white,
+    coltitle=main-dark,
+    fonttitle=\bfseries,
+    title={\faExclamationTriangle\quad #1},
+    attach title to upper=\par\vspace{0.5em},
+}
+
+% Ambiente: Exercício Resolvido
+\newtcolorbox{boxResolvido}[1][Exemplo Resolvido]{
+    enhanced,
+    colback=white,
+    colframe=main,
+    fonttitle=\bfseries,
+    title={\faPencil\quad #1},
+    arc=1mm,
+}
+
+% ----------------------------------------------------------------------
+% FORMATAÇÃO DE TÍTULOS E SUMÁRIO
+% ----------------------------------------------------------------------
+\RequirePackage{titlesec}
+\RequirePackage{tocloft}
+
+% Criação de níveis mais profundos de subseção (subsubsubsection)
+\titleclass{\subsubsubsection}{straight}[\subsection]
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+  {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+% ----------------------------------------------------------------------
+% FORMATAÇÃO DE SEÇÕES (IDENTIDADE VISUAL DO NIVELAMENTO)
+% ----------------------------------------------------------------------
+
+% Estilo para \section: Número em destaque num bloco colorido e linha de fechamento
+\titleformat{\section}
+  {\color{main-dark}\normalfont\Large\bfseries} % Cor e fonte do título
+  {\colorbox{main}{\color{white}\hspace{0.2em}\thesection\hspace{0.2em}}} % Número da seção em um bloco sólido
+  {1em} % Distância entre o bloco do número e o texto
+  {}
+  [\vspace{0.3ex}{\color{main}\titlerule[1.5pt]}] % Linha horizontal espessa abaixo do título
+
+% Estilo para \subsection: Texto na cor base do eixo, mais limpo para não pesar a leitura
+\titleformat{\subsection}
+  {\color{main}\normalfont\large\bfseries}
+  {\thesubsection}
+  {1em}
+  {}
+
+% Ajuste de espaçamento vertical (respiro) ao redor dos títulos
+\titlespacing*{\section}{0pt}{4ex plus 1ex minus .2ex}{2ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{3ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+% ----------------------------------------------------------------------
+% META-ESTILOS PARA CAIXAS DE TEXTO (TCOLORBOX)
+% ----------------------------------------------------------------------
+% Em vez de repetir configurações, criamos um estilo base corporativo.
+\tcbset{
+    estiloNivelamento/.style={
+        width=\linewidth,
+        breakable,
+        enhanced jigsaw,
+        arc=2mm,
+        fonttitle=\bfseries,
+        coltitle=white
+    },
+    estiloQuestao/.style={
+        width=\linewidth,
+        breakable,
+        enhanced jigsaw,
+        colback=white,
+        colframe=white,
+        borderline west={2.5pt}{0pt}{main},
+        fonttitle=\bfseries\color{main},
+        coltitle=main
+    }
+}
+
+% ----------------------------------------------------------------------
+% AMBIENTES SEMÂNTICOS DE CONTEÚDO (COM CONTADORES UNIFICADOS)
+% ----------------------------------------------------------------------
+% Todos os ambientes acadêmicos seguem o contador da seção atual.
+
+% O comando \DeclareTColorBox usa a sintaxe { O{} O{} } para criar dois parâmetros opcionais
+\DeclareTColorBox[auto counter, number within=section]{exemplo}{ O{} O{} }{
+    estiloNivelamento,
+    colback=white,
+    colframe=main,
+    title={\faLightbulbO\quad Exemplo \thetcbcounter\ifx&#1&\else\ - #1\fi},
+    label={#2} % Amarração nativa da etiqueta ao contador interno da caixa
+}
+
+\DeclareTColorBox[auto counter, number within=section]{exercicio}{ O{} O{} }{
+    estiloQuestao,
+    title={\faPencil\quad Exercício \thetcbcounter\ifx&#1&\else\ - #1\fi},
+    label={#2}
+}
+
+\DeclareTColorBox[use counter from=exercicio]{desafio}{ O{} O{} }{
+    estiloQuestao,
+    borderline west={2.5pt}{0pt}{red!80!black},
+    coltitle=red!80!black,
+    title={\faTrophy\quad Desafio \thetcbcounter\ifx&#1&\else\ - #1\fi},
+    label={#2}
+}
+
+\newtcolorbox{gabarito}[1]{
+    estiloQuestao,
+    borderline west={2.5pt}{0pt}{main},
+    coltitle=green!60!black,
+    title={\faCheckSquareO\quad Gabarito (Referente ao Exercício \ref{#1})}
+}
+
+% ----------------------------------------------------------------------
+% AMBIENTES SEMÂNTICOS DE APOIO
+% ----------------------------------------------------------------------
+\newtcolorbox{curiosidade}[1][Você Sabia?]{
+    estiloNivelamento,
+    colback=main!10,
+    colframe=main-dark,
+    coltitle=main-dark,
+    title={\faSearch\quad #1}
+}
+
+\newtcolorbox{dica}[1][Dica de Ouro]{
+    estiloNivelamento,
+    colback=colorPG!15, % Usa o amarelo da programação como base para dicas
+    colframe=colorPG!90!black,
+    coltitle=colorPG!90!black,
+    title={\faMagic\quad #1}
+}
+
+\newtcolorbox{software}[1][Ferramenta Computacional]{
+    estiloNivelamento,
+    colback=colorTI!10,
+    colframe=colorTI,
+    title={\faGears\quad #1}
+}
+
+% Aplica negrito e a cor dinâmica do eixo ativo
+\newcommand{\destaque}[1]{\textbf{\textcolor{main}{#1}}}
+
+% ----------------------------------------------------------------------
+% PLOTAGENS E GRÁFICOS (PGFPLOTS)
+% ----------------------------------------------------------------------
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% Configuração base unificada para todos os gráficos do Nivelamento.
+% A equipe de redação não deve usar ambientes separados para cada tipo de gráfico.
+% Eles devem usar \begin{axis}[estiloGraficoBase, opções locais extras...]
+\pgfplotsset{
+    estiloGraficoBase/.style={
+        axis lines=middle,
+        xlabel={$x$},
+        ylabel={$y$},
+        grid=major,
+        legend pos=south west,
+        samples=250,
+        width=0.7\linewidth,
+        height=0.7\linewidth,
+        every axis x label/.style={at={(ticklabel* cs:1.05)}, anchor=west},
+        every axis y label/.style={at={(ticklabel* cs:1.05)}, anchor=south}
+    },
+    estiloTrigonometrico/.style={
+        estiloGraficoBase,
+        xlabel={$x$ (rad)},
+        xtick={-6.28318, -4.71238, -3.14159, -1.57079, 0, 1.57079, 3.14159, 4.71238, 6.28318},
+        xticklabels={$-2\pi$,$-\frac{3\pi}{2}$,$-\pi$,$-\frac{\pi}{2}$,$0$, $\frac{\pi}{2}$, $\pi$, $\frac{3\pi}{2}$, $2\pi$}
+    }
+}
+
+% Ambiente único para plotagem simples e direta para padronizar as apostilas
+\newenvironment{graficoNiv}[1][]{
+    \begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[estiloGraficoBase, #1]
+}{
+        \end{axis}
+    \end{tikzpicture}
+    \end{center}
+}
