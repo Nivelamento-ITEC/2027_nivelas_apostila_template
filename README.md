@@ -1,233 +1,122 @@
-# Teste de integração GitHub - Overleaf
-Esta seção foi usada para receber testes
+# 📘 Guia Definitivo do Nivelamento ITEC - UFPA
 
-# Manual de Redação e Padronização LaTeX
+Bem-vindo à equipe de construção do material didático do **Nivelamento ITEC - UFPA**. Este documento é o mapa do nosso repositório e o manual oficial de como trabalhamos juntos no LaTeX. 
 
-**Oficina de Nivelamento ITEC - UFPA**
-
-Este documento estabelece as diretrizes de formatação, nomenclatura e estruturação das apostilas do Nivelamento. O objetivo desta arquitetura é garantir que nosso material tenha qualidade profissional, seja escalável e permita que dezenas de voluntários trabalhem simultaneamente sem gerar conflitos de compilação ou quebras de layout.
-
-O cumprimento destas regras é obrigatório para evitar conflitos de compilação e garantir a identidade visual do projeto.
+Nossa arquitetura baseia-se em um princípio fundamental: **A separação absoluta entre o conteúdo (texto) e a forma (layout)**. 
+Para manter a organização e a escalabilidade, permitindo que dezenas de voluntários atuem simultaneamente sem quebrar o código, dividimos nosso fluxo de trabalho e este manual em dois papéis distintos: **Redatores** e **Artífices**.
 
 ---
 
-# PARTE 1: MANUAL DO REDATOR
+## ✍️ BLOCO 1: MANUAL DO REDATOR
 
-## 1. Regras de Ouro e Práticas Proibidas
+Seu papel como redator é focar puramente no conteúdo, na lógica didática e na precisão científica. O sistema de compilação cuidará do design e da padronização de forma autônoma.
 
-A premissa desta arquitetura é a **separação entre conteúdo e forma**. O redator foca no texto e na lógica didática; o sistema cuida do layout.
+### 1. Regras de Ouro e Práticas Proibidas
+*   ❌ **Foque no texto, não no layout:** É terminantemente proibido forçar quebras ou espaçamentos manuais arbitrários (não utilize `\vspace{}`, `\hspace{}`, `\newline` ou `\\` repetidamente).
+*   ❌ **Não crie caixas e cores manualmente:** Não utilize `\begin{tcolorbox}` diretamente para tentar criar blocos bonitos, nem use `\textcolor{}{}`. Nós temos ambientes próprios para isso.
+*   ❌ **Sem pacotes locais:** Nunca insira `\usepackage{}` no meio dos arquivos de conteúdo. Toda dependência deve ser solicitada aos Artífices.
 
-*   ❌ **Proibido usar espaçamentos manuais arbitrários:** Não utilize `\vspace{}`, `\hspace{}`, `\newline` ou `\\` repetidos para forçar quebras de página ou alinhar texto.
-*   ❌ **Proibido formatar caixas e cores manualmente:** Não utilize `\begin{tcolorbox}` diretamente, nem modifique a cor do texto com `\textcolor{red}{}` para criar avisos.
-*   ❌ **Proibido usar pacotes de layout locais:** Não insira `\usepackage{}` no meio dos arquivos de conteúdo. Toda dependência deve ser solicitada à coordenação para inclusão no `/setup`.
+### 2. Padrões de Arquivos (Snake Case)
+Para evitar sobrescritas, adotamos o **Snake Case** (tudo minúsculo, sem acentos, sem espaços) para nomear arquivos. O formato obrigatório é:
+`[prefixo]_[eixo]_[tag_oficial]_[detalhe].[extensão]`
 
----
+**Prefixos obrigatórios:**
+*   `cap_`: Capítulos e seções de texto (ex: `cap_fi_cinematica.tex`)
+*   `fig_`: Imagens estáticas PNG/JPG (ex: `fig_pc_funcoes_raiz.png`)
+*   `tkz_`: Gráficos gerados em TikZ (ex: `tkz_qi_ligacao.tex`)
+*   `tab_`: Tabelas (ex: `tab_pc_trigonometria.tex`)
+*   `cod_`: Snippets de código (ex: `cod_pg_repeticao.tex`)
 
-## 2. Nomenclatura e Vocabulário de Arquivos
+**Atenção às Tags Oficiais (Exemplo do Pré-Cálculo - `pc`):** 
+Use as tags oficiais da apostila (`aritmetica`, `algebra`, `trigonometria`, `conjuntos`, `funcoes`). Não invente abreviações ("arit", "trig", etc).
 
-Para evitar sobrescritas quando múltiplos voluntários unem seus arquivos no documento principal, adote o padrão corporativo **Snake Case** (tudo minúsculo, sem espaços, sem acentos ou caracteres especiais). 
+### 3. Ferramentas: Ambientes Didáticos Semânticos
+Sempre que precisar destacar uma informação acadêmica, use nossos macros. Eles aplicam as cores e numerações institucionais de forma automática.
+**Atenção à sintaxe:** Para que o gabarito funcione, nossos ambientes exigem **dois colchetes sequenciais**: `[Título do Bloco][etiqueta_de_rastreio]`. Se não houver título, deixe o primeiro colchete vazio.
 
-**Padrão:** `[prefixo]_[eixo]_[assunto]_[descrição].[extensão]`
-
-| Prefixo | Descrição | Exemplo Correto | Exemplo Incorreto (Proibido) |
-| :--- | :--- | :--- | :--- |
-| `cap_` | Capítulos e seções (texto LaTeX) | `cap_fi_cinematica.tex` | `Cinematica Final.tex` |
-| `fig_` | Imagens rasterizadas (PNG, JPG, SVG) | `fig_pc_funcoes_parabola_concavidade.png` | `grafico 1.png` |
-| `tkz_` | Gráficos e vetores gerados em TikZ | `tkz_qi_ligacoes_covalente.tex` | `desenho_novo.tikz` |
-| `tab_` | Tabelas estruturais | `tab_pc_trigonometria_angulos_notaveis.tex` | `tabela_trig.tex` |
-| `cod_` | Snippets de programação/algoritmos | `cod_pg_lacos_repeticao.tex` | `codigo_while.txt` |
-
-É estritamente proibido inventar abreviações para nomear arquivos. Você deve utilizar **obrigatoriamente** as tags oficiais listadas abaixo na composição do nome do arquivo (`[prefixo]_[eixo]_[tag_oficial]_[detalhe].[extensão]`).
-
-### Eixo: Pré-Cálculo (`pc`)
-| Módulo / Apostila | Tag Oficial Obrigatória | Exemplo de Uso Correto (Imagem) |
-| :--- | :--- | :--- |
-| Apostila 01 - Aritmética | `aritmetica` | `fig_pc_aritmetica_fracoes_pizza.png` |
-| Apostila 02 - Álgebra Básica | `algebra` | `fig_pc_algebra_produtos_notaveis.png` |
-| Apostila 03 - Trigonometria | `trigonometria` | `tkz_pc_trigonometria_ciclo_radianos.tex`|
-| Apostila 04 - Conjuntos | `conjuntos` | `fig_pc_conjuntos_diagrama_venn.png` |
-| Apostila 04 - Funções | `funcoes` | `fig_pc_funcoes_afim_raiz.png` |
-
-*Nota: Não use "trig", "func", "arit". Copie a tag exata da coluna central.*
-
----
-
-## 3. Catálogo de Ambientes Semânticos
-
-Sempre que precisar destacar uma informação ou criar uma estrutura acadêmica, utilize os macros do Nivelamento. A numeração e as cores institucionais do eixo são aplicadas automaticamente.
-
-**Atenção à Sintaxe de Etiquetas (Labels):** Para garantir que a numeração automática do gabarito e as referências cruzadas funcionem, os ambientes didáticos base exigem **dois colchetes sequenciais**: o primeiro para o título, e o segundo para a etiqueta oficial de rastreio. Se a questão não tiver título, você deve deixar o primeiro colchete vazio `[]`.
-
-### Elementos Didáticos Base
 ```latex
+% Exemplo COMPLETO com título
 \begin{exemplo}[Cálculo de Área][exemplo:pc_geometria_area]
-    Considere um triângulo retângulo onde a base mede...
+    Considere um triângulo retângulo onde...
 \end{exemplo}
 
-% Exemplo SEM título especial, usando apenas colchetes vazios na primeira posição
+% Exercício SEM TÍTULO (note o primeiro colchete vazio)
 \begin{exercicio}[][ex:pc_algebra_eq_segundo_grau]
-    Resolva a equação de segundo grau: $x^2 - 5x + 6 = 0$.
+    Resolva a equação $x^2 - 5x + 6 = 0$.
 \end{exercicio}
 
-\begin{desafio}[Questão de Olimpíada][desafio:pc_geometria_angulos]
-    Demonstre que a soma dos ângulos internos...
-\end{desafio}
-
-\begin{gabarito}{ex:pc_algebra_eq_segundo_grau} % Aponte para a exata etiqueta do exercício
+% Gerando o Gabarito (apontando para a etiqueta do exercício)
+\begin{gabarito}{ex:pc_algebra_eq_segundo_grau}
     As raízes são $x_1 = 2$ e $x_2 = 3$.
 \end{gabarito}
 ```
 
----
+### 4. Sistema de Referenciamento e Etiquetas (Labels)
+Todas as estruturas textuais, imagens e equações devem possuir uma etiqueta com o prefixo correto: `[categoria]:[eixo]_[assunto]_[detalhe]`.
 
-## 4. Referenciamento e Etiquetas (Labels)
+*   **Prefixos comuns:** `sec:` (Seções), `fig:` (Figuras), `tab:` (Tabelas), `eq:` (Equações). Estas são aplicadas usando o clássico `\label{}` dentro do elemento.
+*   **Prefixos de Ambientes:** `ex:` (Exercícios), `exemplo:`, `desafio:`. **Exceção importante:** Como visto no tópico anterior, nos ambientes didáticos você **NÃO** usa `\label{}`, você insere a etiqueta diretamente no segundo par de colchetes `[][]` do ambiente.
 
-É obrigatório que **todas** as estruturas lógicas do documento (seções, figuras, tabelas, equações, códigos e blocos didáticos) possuam uma etiqueta de identificação.
+### 5. Figuras e Tabelas (Padrão ABNT e Fontes)
+É **obrigatório** o uso de legendas (`\caption{}`) em todas as figuras e tabelas do material. Além disso, aplicamos o rigor do padrão ABNT para as inserções:
 
-O formato da etiqueta deve respeitar a sintaxe de agrupamento do LaTeX combinada com as tags oficiais de cada eixo:
+*   **Citação no texto:** Toda figura ou tabela deve ser citada no texto de forma explícita **antes** de aparecer visualmente no documento (ex: *"Como podemos observar na Figura \ref{fig:pc_funcoes_raiz}..."*).
+*   **Fonte Obrigatória:** Logo após a legenda da figura ou tabela, você deve referenciar a autoria do conteúdo:
+    *   Use o comando `\fonteNivelamento` caso a imagem ou tabela seja de autoria da própria equipe do projeto.
+    *   Use o comando `\fonte{Nome do Autor ou Referência}` para materiais extraídos da internet, livros ou provas de vestibulares.
 
-**Formato Geral:** `[categoria]:[eixo]_[assunto]_[detalhe]`
-
-### Categorias Oficiais para Labels
-
-| Estrutura | Prefixo (Categoria) | Exemplo de Uso Correto |
-| :--- | :--- | :--- |
-| **Seções e Capítulos** | `sec:` | `\label{sec:pc_trigonometria_introducao}` |
-| **Subseções** | `subsec:` | `\label{subsec:fis_dinamica_atrito_estatico}` |
-| **Figuras e Gráficos** | `fig:` | `\label{fig:qi_termoquimica_grafico_entalpia}` |
-| **Tabelas** | `tab:` | `\label{tab:pg_sintaxe_operadores_logicos}` |
-| **Equações Matemáticas**| `eq:` | `\label{eq:mat_geometria_area_circulo}` |
-| **Trechos de Código** | `lst:` | `\label{lst:pg_repeticao_while_python}` |
-| **Exercícios** | `ex:` | `[ex:pc_algebra_eq_segundo_grau]` * |
-| **Exemplos** | `exemplo:` | `[exemplo:pc_geometria_area]` * |
-| **Desafios** | `desafio:` | `[desafio:pc_geometria_angulos]` * |
-| **Caixas (Atenção, Dica)**| `box:` | `\label{box:pc_conjuntos_atencao_divisao}` |
-
-**Atenção à Sintaxe de Aplicação:** 
-As estruturas textuais comuns (seções, figuras, tabelas, equações) recebem a etiqueta através do comando tradicional `\label{}` inserido dentro delas. 
-
-* **Exceção (Ambientes Didáticos):** Para Exercícios, Exemplos e Desafios, o LaTeX **NÃO** aceita o comando `\label{}` solto no texto. A etiqueta deve ser obrigatoriamente passada no **segundo colchete** da declaração do ambiente, sem o comando `\label`.
-
-**Exemplo da diferença:**
+**Exemplo de Aplicação:**
 ```latex
-% Correto para uma equação (usa \label interno)
-\begin{equation}
-    x^2 = 4
-    \label{eq:mat_basica_quadrado}
-\end{equation}
+Como vemos na Figura \ref{fig:pc_funcoes_raiz}, o gráfico intercepta...
 
-% Correto para um exercício (usa o segundo colchete, sem \label)
-\begin{exercicio}[Cálculo Simples][ex:mat_basica_quadrado_ex]
-    Qual o valor de $x$?
-\end{exercicio}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{fig_pc_funcoes_raiz.png}
+    \caption{Comportamento da raiz na função afim}
+    \label{fig:pc_funcoes_raiz}
+    \fonteNivelamento % ou \fonte{Livro XYZ, p. 45}
+\end{figure}
 ```
 
 ---
 
-# PARTE 2: MANUAL DO ARTÍFICE
+## 🛠️ BLOCO 2: MANUAL DO ARTÍFICE
 
-Esta seção é dedicada ao detalhamento e ao funcionamento das engrenagens internas do template e os protocolos de manutenção da infraestrutura modular.
+Se você atua na manutenção, infraestrutura e revisão técnica do template, este é o seu domínio. Esta seção explica os mecanismos profundos do projeto.
 
-## 5. Arquitetura do Template e Diretórios
-
-O template está dividido em duas áreas de escopo isolado. Redatores operam **apenas** no diretório de conteúdo.
+### 1. Arquitetura Modular e Escopo
+O código complexo que governa a apostila foi extraído do arquivo raiz e dividido em "motores". Redatores operam estritamente dentro da pasta `/conteudo`. Os artífices mantêm o ambiente de configurações na pasta `/setup`.
 
 ```text
 /
-├── main.tex                         (Arquivo raiz de compilação)
-├── README.md                        (Este manual de diretrizes)
-│
-├── /conteudo                        (Área de Trabalho da Equipe)
-│   └── cap_niv_tutorial.tex         (Exemplo de arquivo de texto)
-│
-└── /setup                           (Uso Exclusivo da Coordenação/Revisão)
-    ├── /assets                      (Marcas e identidades visuais institucionais)
-    │   ├── /eixos_icones            (Arquivos SVG com logo dos Eixos)
-    │   ├── /titulo_texto            (Arquivos SVG com a logo "Nivelamento" na cor dos Eixos)
-    │   └── /ufpa_itec               (Arquivos SVG das entidades colaboradoras do Nivelamento)
-    │
-    ├── /pre_textual                 (Molduras de diagramação fixa)
-    │   ├── capa_principal.tex
-    │   ├── capa_secundaria.tex
-    │   └── folha_de_rosto.tex
-    │
-    ├── nivelamento_ambientes.sty    (Definições de caixas, cabeçalhos e gráficos)
-    ├── nivelamento_base.sty         (Pacotes de compilação, idioma e matemática)
-    ├── nivelamento_design.sty       (Paleta de cores e macros de logotipos)
-    └── nivelamento_referencias.sty  (Normas ABNT e formatação de links)
+├── main.tex                         (Arquivo raiz e orquestrador)
+├── /conteudo                        (Área restrita de Redatores)
+└── /setup                           (Núcleo de Infraestrutura)
+    ├── /assets                      (Identidade visual em SVG)
+    ├── /pre_textual                 (Diagramação de capas)
+    └── *.sty                        (Motores modulares)
 ```
----
 
-## 6. Módulos Base
+### 2. Os Mecanismos Internos (Pacotes `.sty`)
 
-Para suportar o volume crescente de alunos e permitir que a equipe de voluntários trabalhem sem quebrar o documento, o código que governa as apostilas foi retirado do arquivo principal (`main.tex`) e dividido em quatro "motores" dedicados (os arquivos `.sty` localizados na pasta `/setup`). 
+Para blindar o documento contra falhas catastróficas, dividimos as responsabilidades do sistema em três pacotes vitais localizados em `/setup`:
 
-### Módulo Base (`Nivelamento_base.sty`)
+#### A. O Alicerce: `nivelamento_base.sty`
+O núcleo duro de estabilidade, sem responsabilidades visuais, mas essencial para a compilação:
+*   **Codificação e Idioma:** Carrega `inputenc` e `babel`, resolvendo hifenizações complexas em português e suporte a caracteres acentuados.
+*   **Geometria Estática:** O pacote `geometry` define margens fixas globais A4, impedindo que falhas humanas em documentos isolados alterem a margem de impressão.
+*   **Motores Matemáticos:** Centraliza os poderosos pacotes AMS (`amsmath`, `amssymb`), vitais para as demandas das disciplinas de exatas.
+*   *Protocolo de Atualização:* Todo novo pacote geral (como `booktabs` para tabelas) precisa ser inserido aqui, jamais no `main.tex`.
 
-O arquivo `nivelamento_base.sty` atua como o alicerce estrutural de todo o projeto em $\LaTeX$. Ele não define a estética, mas garante que tudo funcione de maneira estável e padronizada.
+#### B. Identidade Adaptativa: `nivelamento_design.sty`
+Este módulo é o gestor de temas dinâmicos. Ao alterar a chave `\setDesign{Eixo}` no `main.tex`, ele injeta visual instantâneo em todo o PDF.
+*   **Variáveis de Cor (`xcolor`):** Em vez de escrever "azul" ou "vermelho", o sistema usa variáveis lógicas (`main` e `main-dark`). O redator aplica a classe, o `.sty` decide que cor será impressa baseada no eixo ativo.
+*   **Roteamento de SVG Institucional:** Variáveis opacas como `\logoIconeEixo` apontam dinamicamente para os ícones corretos dentro de `/assets`, montando capas institucionais complexas automaticamente.
+*   *Protocolo de Atualização:* Para cadastrar um novo eixo didático, copie um bloco condicional inteiro (como o do `PC`), adapte a sigla e atualize as chaves hexadecimais de cor.
 
-Para facilitar a manutenção técnica, as responsabilidades deste arquivo estão divididas em quatro pilares funcionais:
-
-*   **1. Codificação e Localização (Idioma)**
-    *   **O que faz:** Carrega pacotes fundamentais do sistema, como `inputenc`, `fontenc` e `babel`.
-    *   **Impacto prático:** É este bloco que ensina o LaTeX a "falar" português. Ele garante que caracteres especiais do nosso idioma sejam processados corretamente sem quebrar a compilação, além de automatizar regras complexas, como a hifenização correta no final das linhas de texto.
-
-*   **2. Geometria da Página**
-    *   **O que faz:** Controla o pacote `geometry`.
-    *   **Impacto prático:** Define matematicamente o tamanho do papel (A4) e estabelece as margens (superior, inferior, esquerda e direita). Ao isolarmos essa configuração aqui, impedimos que um erro humano altere acidentalmente as margens de uma única apostila, garantindo uniformidade na impressão de todos os eixos.
-
-*   **3. Motores Matemáticos**
-    *   **O que faz:** Incorpora a suíte completa da *American Mathematical Society* (pacotes `amsmath`, `amssymb`, `amsfonts`, entre outros).
-    *   **Impacto prático:** Como a oficina lida fortemente com áreas de Exatas (como Pré-Cálculo e Física), este pilar fornece todo o arsenal de símbolos matemáticos, matrizes, fontes cursivas e alinhamento de equações complexas que os redatores necessitam para estruturar exemplos, exercícios resolvidos e demonstrações.
-
-*   **4. Suporte a Mídias e Estruturas Básicas**
-    *   **O que faz:** Importa bibliotecas essenciais de renderização, como `graphicx` e `float`.
-    *   **Impacto prático:** Habilita o documento a importar imagens (PNG, JPG, SVG) de outras pastas e a ancorá-las corretamente na página, evitando que uma figura ou tabela flutue para um local indesejado e quebre a continuidade da leitura.
-
-A regra para atualizar este arquivo é a universalidade. Se, no futuro, o projeto necessitar de um novo pacote de uso geral (por exemplo, um pacote para desenhar tabelas mais elegantes, como o `booktabs`), ele deve ser declarado exclusivamente dentro deste arquivo `nivelamento_base.sty`, e nunca no `main.tex`. Dessa forma, o novo recurso é imediatamente herdado por todos os arquivos do Nivelamento de forma silenciosa e centralizada.
-
-### Módulo de Identidade Visual (`nivelamento_design.sty`)
-
-Ele centraliza toda a identidade visual do Nivelamento e adapta a aparência da apostila de acordo com o eixo que está sendo compilado.
-
-O coração deste arquivo é a macro condicional `\setDesign{}`, que funciona como uma chave mestra. Quando o coordenador digita `\setDesign{PC}` no arquivo principal, este módulo intercepta o comando e injeta instantaneamente toda a identidade do Pré-Cálculo na engrenagem do PDF.
-
-Para blindar o layout e automatizar a estética, as responsabilidades deste arquivo estão divididas em três frentes:
-
-*   **1. Paleta de Cores Matemáticas**
-    *   **O que faz:** Utiliza o pacote `xcolor` para definir códigos hexadecimais exatos. Ele substitui cores rígidas por variáveis universais, nomeando-as como `main` (cor primária) e `main-dark` (cor de contraste).
-    *   **Impacto prático:** Garante que todo o documento se adapte como um tema de sistema operacional. Se o eixo for Pré-Cálculo, a cor `main` pinta títulos, bordas e ícones de azul. Se o `main.tex` for alterado para Física, a mesma variável `main` injeta vermelho em todo o arquivo. O redator nunca precisa se preocupar com cores.
-
-*   **2. Roteamento de Logotipos (Assets Institucionais)**
-    *   **O que faz:** Cria macros semânticas (como `\logoTextoNivelamento` ou `\logoIconeEixo`) que embutem os caminhos de diretório exatos apontando para a pasta `/setup/assets_institucionais`.
-    *   **Impacto prático:** Isola a complexidade das pastas. Os arquivos da capa e folha de rosto "puxam" essas variáveis cegas. É este módulo que decide se o ícone renderizado será o ícone do Eixo de Física ou o do Pré-Cálculo, impedindo que voluntários precisem caçar imagens soltas no repositório.
-
-*   **3. Automação de Ementas e Nomenclaturas**
-    *   **O que faz:** Armazena o nome oficial da disciplina (variável `\eixo`) e o longo parágrafo explicativo que a coordenação exige na segunda página (variável `\descricaoEixo`).
-    *   **Impacto prático:** Padroniza a comunicação institucional. O redator não precisa digitar a ementa do curso ou lembrar o nome dos diretores do ITEC; o módulo preenche os documentos oficiais automaticamente, zerando o risco de inconsistências entre as apostilas.
-
-A manutenção neste arquivo será extremamente rara e ocorrerá, via de regra, apenas quando a Oficina de Nivelamento inaugurar um novo eixo de ensino. Para expandir o sistema, o gestor não deve alterar os códigos antigos. O procedimento correto é copiar um bloco condicional inteiro (por exemplo, o bloco do `PC`), colá-lo ao final do arquivo, alterar a sigla identificadora (ex: `\IfSubStr{#1}{XX}`) e substituir os códigos hexadecimais e os caminhos dos novos SVGs. A arquitetura de variáveis garantirá que o novo eixo funcione perfeitamente com todas as capas e caixas semânticas já existentes.
-
-### 7. Módulo de Estruturas Didáticas (`nivelamento_ambientes.sty`)
-
-Este arquivo é o núcleo de diagramação avançada do projeto e o principal responsável por garantir a premissa de que o redator foca no conteúdo enquanto o sistema cuida do *layout*.
-
-Seu objetivo é encapsular códigos complexos de desenho vetorial e formatação tipográfica dentro de comandos simples e intuitivos (como `\begin{exercicio}`). 
-
-As competências deste módulo está estruturada em três frentes de atuação tipográfica e visual:
-
-*   **1. Motores de Caixas e Meta-estilos (`tcolorbox`)**
-    *   **O que faz:** Utiliza a biblioteca `tcolorbox` para desenhar os blocos visuais. Primeiro, ele cria "meta-estilos" (como o `estiloQuestao` e o `estiloNivelamento`), que funcionam como o CSS de uma página web, definindo regras universais de espaçamento interno (padding), cantos arredondados, quebra automática de páginas e sombras.
-    *   **Impacto prático:** Garante coesão geométrica. Como todos os ambientes didáticos herdam esses meta-estilos, qualquer ajuste milimétrico feito pelo gestor (como aumentar a espessura da borda lateral) será propagado instantaneamente para todos os exercícios, exemplos e desafios de todas as apostilas.
-
-*   **2. Ambientes Semânticos (Automação Didática)**
-    *   **O que faz:** Transforma os meta-estilos em comandos reais para a equipe através da diretiva `\DeclareTColorBox`. Ele amarra a formatação visual a contadores automáticos, injeta os ícones do pacote `fontawesome` (como a lâmpada do Exemplo ou o troféu do Desafio) e gerencia a lógica das etiquetas (labels) em dois colchetes.
-    *   **Impacto prático:** É o que permite a numeração inteligente. Este bloco rastreia em qual capítulo o redator está e gera numerações como "Exercício 1.1" de forma autônoma. Ele também impede que o gabarito perca a sincronia com a sua respectiva questão, gerindo as referências cruzadas.
-
-*   **3. Hierarquia de Títulos e Navegação (`titlesec` e `tocloft`)**
-    *   **O que faz:** Intercepta os comandos nativos do LaTeX (`\section`, `\subsection` e `\tableofcontents`) e os redesenha para aplicar a identidade visual do Nivelamento.
-    *   **Impacto prático:** Substitui os títulos genéricos por uma hierarquia forte e corporativa. Além disso, formata o Sumário com pontilhados e espaçamentos profissionais, removendo qualquer necessidade de o redator diagramar essas páginas iniciais.
-
-A intervenção neste arquivo será necessária apenas quando a organização dos Eixos decidir criar **uma nova categoria didática** no material. 
-
-Por exemplo, se for decidido que as apostilas agora terão blocos de "Curiosidade" ou "Atenção", o gestor não precisa programar do zero. Basta copiar a estrutura do `\DeclareTColorBox` de um ambiente já existente (como o Exemplo), alterar o nome do comando de chamada, substituir o ícone da fonte `fontawesome` e ajustar a cor (utilizando as variáveis `main` ou cores de alerta, como `red!80!black`).# 2027_nivelas_apostila_template
+#### C. Engenharia Didática: `nivelamento_ambientes.sty`
+Onde a magia visual acontece. Traduz códigos tipográficos gigantescos em comandos limpos para os redatores.
+*   **Meta-estilos (CSS-like):** O pacote `tcolorbox` é utilizado para criar estilos unificados. Espaçamento (padding), sombra e arredondamento são definidos aqui. Alterar 1 milímetro de borda aqui ajusta todas as apostilas do Nivelamento.
+*   **Automação Semântica e Rastreadores:** O comando `\DeclareTColorBox` amarra os meta-estilos, injeta logotipos do pacote `fontawesome` (a lâmpada do exemplo, o troféu do desafio) e cria a numeração automática inteligente que interage com o gabarito.
+*   **Redesenho de Títulos:** Modifica as chamadas nativas do LaTeX (`\section`) via pacote `titlesec`, substituindo a fonte sem graça por nossa tipografia corporativa.
+*   *Protocolo de Atualização:* Para criar uma nova caixa (ex: "Fique Atento!"), clone o código `\DeclareTColorBox` de uma caixa parecida, troque o ícone, defina uma cor e preserve a herança dos meta-estilos genéricos.
