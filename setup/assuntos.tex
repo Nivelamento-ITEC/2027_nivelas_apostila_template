@@ -1,0 +1,66 @@
+% ======================================================================
+% TABELA DE ASSUNTOS (LOOKUP TABLE)
+% Arquivo: assuntos.tex
+% Finalidade: Define automaticamente o \assunto baseado na \key e na \aula
+% ======================================================================
+\ProvidesFile{assuntos.tex}[Tabela de assuntos por Eixo e Aula]
+
+% Função interna para cadastrar assuntos
+\newcommand{\cadastrarAssunto}[3]{%
+  % #1 = Eixo (ex: PC)
+  % #2 = Aula (1 a 5)
+  % #3 = Nome do Assunto
+  \expandafter\newcommand\csname assunto#1#2\endcsname{#3}%
+}
+
+% ======================================================================
+% 1. CADASTRO DE ASSUNTOS (Basta editar os nomes abaixo)
+% ======================================================================
+
+% EIXO: NIVELAMENTO PADRÃO (NIV)
+\cadastrarAssunto{NIV}{1}{Introdução ao Nivelamento}
+\cadastrarAssunto{NIV}{2}{Metodologia de Estudo}
+\cadastrarAssunto{NIV}{3}{Planejamento de Carreira}
+\cadastrarAssunto{NIV}{4}{Saúde Mental}
+\cadastrarAssunto{NIV}{5}{Encerramento e Feedback}
+
+% EIXO: PRÉ-CÁLCULO (PC)
+\cadastrarAssunto{PC}{1}{Aritmética e Frações}
+\cadastrarAssunto{PC}{2}{Álgebra Básica}
+\cadastrarAssunto{PC}{3}{Trigonometria}
+\cadastrarAssunto{PC}{4}{Conjuntos e Intervalos}
+\cadastrarAssunto{PC}{5}{Funções}
+
+% EIXO: PROGRAMAÇÃO (PG)
+\cadastrarAssunto{PG}{1}{Lógica e Algoritmos}
+\cadastrarAssunto{PG}{2}{Estruturas Condicionais}
+\cadastrarAssunto{PG}{3}{Laços de Repetição}
+\cadastrarAssunto{PG}{4}{Funções e Arrays}
+\cadastrarAssunto{PG}{5}{Projeto Prático}
+
+% EIXO: FÍSICA (FI)
+\cadastrarAssunto{FI}{1}{Cinemática}
+\cadastrarAssunto{FI}{2}{Leis de Newton}
+\cadastrarAssunto{FI}{3}{Trabalho e Energia}
+\cadastrarAssunto{FI}{4}{Termologia}
+\cadastrarAssunto{FI}{5}{Óptica e Ondulatória}
+
+% EIXO: QUÍMICA (QI)
+\cadastrarAssunto{QI}{1}{Estrutura Atômica}
+\cadastrarAssunto{QI}{2}{Tabela Periódica}
+\cadastrarAssunto{QI}{3}{Ligações Químicas}
+\cadastrarAssunto{QI}{4}{Estequiometria}
+\cadastrarAssunto{QI}{5}{Termoquímica}
+
+
+% ======================================================================
+% 2. MOTOR DE RECUPERAÇÃO (Não alterar)
+% ======================================================================
+\newcommand{\carregarAssunto}{%
+    \ifcsname assunto\key\aula\endcsname
+        \expandafter\let\expandafter\assunto\csname assunto\key\aula\endcsname
+    \else
+        \def\assunto{ASSUNTO NÃO CADASTRADO (\key - Aula \aula)}%
+        \GenericWarning{}{Aviso: O assunto para \key\space na aula \aula\space nao foi encontrado em assuntos.tex}%
+    \fi
+}

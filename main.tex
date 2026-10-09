@@ -5,14 +5,34 @@
 \usepackage{setup/nivelamento_ambientes}
 \usepackage{setup/nivelamento_referencias}
 
-\newcommand{\key}{NIV}   % Define o eixo para carregar as cores e variáveis automaticamente
-\newcommand{\ano}{2027} % Ano da edição
-\newcommand{\edicao}{2027.2}
-\newcommand{\assunto}{Teste de Template}
+% =======================================================
+% CONFIGURAÇÕES PRINCIPAIS (Redator)
+% =======================================================
+\newcommand{\key}{NIV}                        % Eixo (ex: NIV, PC, PG, QI, FI)
+\newcommand{\aula}{1}                         % Número da Aula (Restrito de 1 a 5)
+
+% --- Validação de Segurança da Variável \aula ---
+\ifnum\aula=1 \else
+\ifnum\aula=2 \else
+\ifnum\aula=3 \else
+\ifnum\aula=4 \else
+\ifnum\aula=5 \else
+  \GenericError{}{Erro de Compilacao: A variavel \string\aula\space (\aula) deve ser um numero inteiro de 1 a 5}{}{Por favor, altere o valor da variavel \string\aula\space no topo do arquivo main.tex para 1, 2, 3, 4 ou 5.}
+  \stop
+\fi\fi\fi\fi\fi
+% ------------------------------------------------
+
+% --- Carregamento Dinâmico do Assunto ---
+\input{setup/assuntos}
+\carregarAssunto
+% ----------------------------------------
+
+\newcommand{\ano}{2027}        % Ano da edição
+\newcommand{\edicao}{2027.2}   % Edição
 \setDesign{\key}
 
 % CHAVE DO TUTORIAL: 'on' compila o manual, 'off' compila a apostila
-\tutorial{on} 
+\tutorial{off} 
 
 \begin{document}
     % Início da apostila
@@ -32,10 +52,8 @@
         \input{conteudo/_tutorial/cap_niv_manual_do_artifice}
     }{
         % --- CONDIÇÃO FALSA (TUTORIAL = OFF) ---
-        % Aqui entra a lista de aulas oficiais da apostila:
-        % \input{...}
-
-        Esperando por conteúdo...
+        % Importa dinamicamente a aula validada
+        \input{aulas/aula_\aula}
     }
     
 \end{document}
