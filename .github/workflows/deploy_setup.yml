@@ -17,6 +17,8 @@ jobs:
       # Passo 1: Baixa o código do repositório mestre para o servidor do GitHub
       - name: Checkout Master Repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       # Passo 2: Executa o script de distribuição para os filhos
       - name: Sincronizar pasta /setup com repositórios filhos
