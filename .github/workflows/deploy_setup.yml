@@ -28,7 +28,7 @@ jobs:
         run: |
           # 1. Defina aqui a sua organização (ou seu usuário) e a lista de repositórios filhos
           ORGANIZACAO="Nivelamento-ITEC"
-          REPOSITORIOS=("2027_nivelas_apostila_bio")
+          REPOSITORIOS=("2027_nivelas_apostila_bio" "2027_nivelas_apostila_qi" "2027_nivelas_apostila_ib" "2027_nivelas_apostila_pg" "2027_nivelas_apostila_fi" "2027_nivelas_apostila_pc")
           
           # 2. Configura a identidade do robô para o log do Git
           git config --global user.name "Robô de Nivelamento"
