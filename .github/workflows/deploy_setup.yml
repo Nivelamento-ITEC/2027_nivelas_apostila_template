@@ -1,0 +1,59 @@
+name: Deploy Setup to Child Repositories
+
+# O gatilho: roda apenas quando houver um push na branch 'main' 
+# e SOMENTE se arquivos dentro da pasta /setup forem modificados.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'setup/**'
+
+jobs:
+  distribute-setup:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Passo 1: Baixa o código do repositório mestre para o servidor do GitHub
+      - name: Checkout Master Repository
+        uses: actions/checkout@v4
+
+      # Passo 2: Executa o script de distribuição para os filhos
+      - name: Sincronizar pasta /setup com repositórios filhos
+        env:
+          # O token de autorização que criaremos no GitHub
+          API_TOKEN_GITHUB: ${{ secrets.PAT_TOKEN }}
+        run: |
+          # 1. Defina aqui a sua organização (ou seu usuário) e a lista de repositórios filhos
+          ORGANIZACAO="Nivelamento-ITEC"
+          REPOSITORIOS=("Nivelamento-Calculo" "Nivelamento-Fisica" "Nivelamento-Quimica")
+          
+          # 2. Configura a identidade do robô para o log do Git
+          git config --global user.name "Robô de Nivelamento"
+          git config --global user.email "automacao@nivelamento-itec.ufpa.br"
+          
+          # 3. Loop de distribuição: repete a ação para cada repositório da lista
+          for REPO in "${REPOSITORIOS[@]}"; do
+            echo "Iniciando atualização no repositório: $REPO"
+            
+            # Clona o repositório filho usando o token de acesso
+            git clone https://${API_TOKEN_GITHUB}@github.com/${ORGANIZACAO}/${REPO}.git temp_filho
+            
+            # Deleta a pasta /setup antiga do filho e copia a nova do mestre
+            rm -rf temp_filho/setup
+            cp -r setup temp_filho/
+            
+            # Entra na pasta do filho, registra as mudanças e faz o push
+            cd temp_filho
+            git add setup/
+            
+            # O comando '|| true' impede que a automação falhe se não houver mudanças reais
+            git commit -m "chore(setup): atualização automatizada da identidade visual" || true
+            git push origin main
+            
+            # Sai da pasta e limpa os arquivos temporários para o próximo loop
+            cd ..
+            rm -rf temp_filho
+            
+            echo "✅ Atualização concluída para $REPO"
+          done
